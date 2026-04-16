@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoffeeMeet — Find Your Midpoint Cafe</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #faf7f4;
+      color: #2c1a0e;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #2c1a0e;
+      color: #fff;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    header .logo { font-size: 28px; }
+    header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    header p { font-size: 13px; color: #c4a882; margin-top: 2px; }
+
+    .container {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      height: calc(100vh - 72px);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid #e8ddd4;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .sidebar-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #8c6a4a;
+      margin-bottom: 10px;
+    }
+
+    /* Friends list */
+    #friends-list { margin-bottom: 10px; }
+
+    .friend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .name-input {
+      width: 62px;
+      padding: 6px 7px;
+      border: 1px solid #e0d0c0;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #faf7f4;
+      flex-shrink: 0;
+      min-width: 0;
+      color: #2c1a0e;
+      border-left-width: 3px;
+    }
+    .name-input:focus { outline: 2px solid #c4843a; border-color: transparent; background: #fff; }
+    .friend-input {
+      flex: 1;
+      padding: 9px 11px;
+      border: 1px solid #e0d0c0;
+      border-radius: 8px;
+      font-size: 13px;
+      background: #faf7f4;
+      transition: border-color .15s;
+    }
+    .friend-input:focus { outline: 2px solid #c4843a; border-color: transparent; background: #fff; }
+    .friend-input.resolved { border-color: #5aad7a; background: #f2fbf5; }
+    .friend-input.error    { border-color: #e05a5a; background: #fff5f5; }
+
+    .remove-btn, .loc-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 3px 5px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .remove-btn { color: #c4843a; font-size: 18px; }
+    .remove-btn:hover { background: #fce9d6; }
+    .loc-btn { color: #5282e0; }
+    .loc-btn:hover { background: #e8eeff; }
+    .loc-btn:disabled { color: #bbb; cursor: not-allowed; }
+
+    /* Move midpoint button */
+    #move-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px;
+      background: none;
+      border: 1.5px solid #5282e0;
+      border-radius: 10px;
+      color: #5282e0;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      display: none;
+    }
+    #move-btn:hover  { background: #e8eeff; }
+    #move-btn.active { background: #5282e0; color: #fff; }
+
+    #add-friend-btn {
+      width: 100%;
+      padding: 9px;
+      border: 1.5px dashed #c4843a;
+      border-radius: 8px;
+      background: none;
+      color: #c4843a;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    #add-friend-btn:hover { background: #fce9d6; }
+
+    /* ── Triangulate toggle ── */
+    .tri-toggle {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tri-btn {
+      flex: 1;
+      padding: 8px 6px;
+      border: 1.5px solid #e0d0c0;
+      border-radius: 8px;
+      background: #faf7f4;
+      color: #8c6a4a;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      text-align: center;
+    }
+    .tri-btn:hover  { border-color: #c4843a; color: #c4843a; }
+    .tri-btn.active { border-color: #c4843a; background: #fff8ee; color: #c4843a; }
+
+    /* ── Travel mode buttons ── */
+    #travel-mode-section { margin-bottom: 4px; }
+    .travel-modes {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .travel-btn {
+      padding: 6px 11px;
+      border: 1.5px solid #e0d0c0;
+      border-radius: 7px;
+      background: #faf7f4;
+      color: #8c6a4a;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .travel-btn:hover  { border-color: #c4843a; color: #c4843a; }
+    .travel-btn.active { border-color: #c4843a; background: #fff8ee; color: #c4843a; }
+
+    /* Options */
+    .options-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0 4px;
+      font-size: 13px;
+    }
+    #radius-input {
+      width: 70px;
+      padding: 6px 8px;
+      border: 1px solid #e0d0c0;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    /* Find button */
+    #find-btn {
+      width: 100%;
+      margin: 14px 0 0;
+      padding: 13px;
+      background: #2c1a0e;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    #find-btn:hover    { background: #4a2d18; }
+    #find-btn:disabled { background: #bca898; cursor: not-allowed; }
+
+    /* Status */
+    #status {
+      font-size: 13px;
+      color: #8c6a4a;
+      margin-top: 10px;
+      min-height: 20px;
+    }
+    #status.error { color: #c04040; }
+
+    /* Results */
+    #results-section { margin-top: 20px; }
+
+    .cafe-card {
+      background: #faf7f4;
+      border: 1px solid #e8ddd4;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .cafe-card:hover    { border-color: #c4843a; box-shadow: 0 2px 8px rgba(196,132,58,.15); }
+    .cafe-card.selected { border-color: #c4843a; background: #fff8ee; }
+
+    .cafe-name   { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+    .cafe-meta   { font-size: 12px; color: #8c6a4a; display: flex; gap: 10px; flex-wrap: wrap; }
+    .cafe-rating { color: #d4920a; }
+    .cafe-open   { color: #5aad7a; font-weight: 600; }
+    .cafe-closed { color: #e05a5a; font-weight: 600; }
+
+    .cafe-actions { margin-top: 8px; display: flex; gap: 8px; }
+    .cafe-actions a {
+      font-size: 12px;
+      font-weight: 600;
+      color: #c4843a;
+      text-decoration: none;
+      background: #fce9d6;
+      padding: 4px 10px;
+      border-radius: 5px;
+    }
+    .cafe-actions a:hover { background: #f0d0b0; }
+
+    /* Map */
+    #map { width: 100%; height: 100%; }
+    .map-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #f0ebe5;
+      color: #8c6a4a;
+      gap: 12px;
+      font-size: 15px;
+    }
+    .map-placeholder .icon { font-size: 48px; }
+
+    /* Custom autocomplete dropdown */
+    .autocomplete-dropdown {
+      position: fixed;
+      background: #fff;
+      border: 1px solid #e0d0c0;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(44,26,14,.15);
+      z-index: 10000;
+      display: none;
+      overflow: hidden;
+      font-size: 13px;
+    }
+    .autocomplete-item {
+      padding: 9px 13px;
+      cursor: pointer;
+      border-top: 1px solid #f5ede4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #2c1a0e;
+    }
+    .autocomplete-item:first-child { border-top: none; }
+    .autocomplete-item:hover, .autocomplete-item.active { background: #fff8ee; }
+    .autocomplete-item strong { color: #2c1a0e; }
+    .autocomplete-item span   { color: #8c6a4a; }
+
+    /* ── Place detail panel ── */
+    #place-detail {
+      position: absolute;
+      top: 0; right: 0;
+      width: 360px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -4px 0 24px rgba(44,26,14,.18);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform .3s cubic-bezier(.4,0,.2,1);
+      overflow: hidden;
+    }
+    #place-detail.open { transform: translateX(0); }
+
+    #detail-close {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 30px; height: 30px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0,0,0,.45);
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
+    }
+    #detail-close:hover { background: rgba(0,0,0,.65); }
+
+    /* Photos */
+    #detail-photos {
+      flex-shrink: 0;
+      height: 200px;
+      overflow: hidden;
+      background: #e8ddd4;
+      position: relative;
+    }
+    #detail-photos img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    #detail-photos img.active { display: block; }
+    .photo-nav {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,.4);
+      color: #fff;
+      border: none;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 5;
+    }
+    .photo-nav:hover { background: rgba(0,0,0,.6); }
+    #photo-prev { left: 8px; }
+    #photo-next { right: 8px; }
+    #photo-counter {
+      position: absolute;
+      bottom: 8px; right: 10px;
+      background: rgba(0,0,0,.45);
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    #detail-no-photo {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px;
+      background: #f0ebe5;
+    }
+
+    /* Header */
+    #detail-header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid #f0e8de;
+      flex-shrink: 0;
+    }
+    #detail-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: #2c1a0e;
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+    #detail-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #8c6a4a;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    #detail-meta .stars { color: #d4920a; font-size: 13px; }
+    #detail-meta .open  { color: #5aad7a; font-weight: 600; }
+    #detail-meta .closed{ color: #e05a5a; font-weight: 600; }
+    #detail-meta .price { color: #5aad7a; }
+
+    /* Quick action buttons */
+    .detail-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .detail-action-btn {
+      flex: 1;
+      min-width: 0;
+      padding: 7px 6px;
+      border: 1.5px solid #e0d0c0;
+      border-radius: 8px;
+      background: #faf7f4;
+      color: #2c1a0e;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      transition: background .15s;
+    }
+    .detail-action-btn:hover { background: #fff8ee; border-color: #c4843a; }
+    .detail-action-btn .icon { font-size: 16px; }
+
+    /* Tabs */
+    .detail-tabs {
+      display: flex;
+      border-bottom: 1px solid #f0e8de;
+      flex-shrink: 0;
+    }
+    .detail-tab {
+      flex: 1;
+      padding: 10px 4px;
+      border: none;
+      background: none;
+      font-size: 12px;
+      font-weight: 700;
+      color: #8c6a4a;
+      cursor: pointer;
+      border-bottom: 2.5px solid transparent;
+      transition: all .15s;
+    }
+    .detail-tab.active { color: #c4843a; border-bottom-color: #c4843a; }
+    .detail-tab:hover  { color: #c4843a; }
+
+    /* Tab content */
+    .detail-tab-content {
+      flex: 1;
+      overflow-y: auto;
+      display: none;
+    }
+    .detail-tab-content.active { display: block; }
+
+    /* Overview tab */
+    .detail-map-embed {
+      width: 100%;
+      height: 160px;
+      border: none;
+      display: block;
+    }
+    .detail-info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 11px 16px;
+      border-bottom: 1px solid #f5ede4;
+      font-size: 13px;
+    }
+    .detail-info-row .row-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .detail-info-row .row-label { font-weight: 700; color: #2c1a0e; }
+    .detail-info-row .row-val   { color: #5c3d20; margin-top: 2px; }
+    .detail-info-row a { color: #c4843a; text-decoration: none; }
+    .detail-info-row a:hover { text-decoration: underline; }
+    .hours-list { font-size: 12px; color: #5c3d20; margin-top: 4px; line-height: 1.7; }
+    .hours-today { font-weight: 700; color: #2c1a0e; }
+
+    /* Reviews tab */
+    .review-card {
+      padding: 13px 16px;
+      border-bottom: 1px solid #f5ede4;
+    }
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .review-avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e8ddd4;
+      flex-shrink: 0;
+    }
+    .review-author { font-weight: 700; font-size: 13px; }
+    .review-date   { font-size: 11px; color: #8c6a4a; }
+    .review-stars  { color: #d4920a; font-size: 12px; }
+    .review-text   { font-size: 13px; color: #3a2010; line-height: 1.5; }
+    .review-text.collapsed {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .review-expand {
+      font-size: 12px; color: #c4843a; cursor: pointer;
+      background: none; border: none; padding: 2px 0; margin-top: 4px; font-weight: 600;
+    }
+
+    /* Photos tab */
+    .photos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      padding: 3px;
+    }
+    .photos-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    .photos-grid img:hover { opacity: .85; }
+
+    #detail-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      color: #8c6a4a;
+      gap: 12px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .container { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: auto; }
+      .sidebar   { max-height: 60vh; }
+      #map       { height: 50vh; }
+      #place-detail { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="logo">☕</span>
+  <div>
+    <h1>CoffeeMeet</h1>
+    <p>Find the perfect midpoint cafe for your group</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ── Sidebar ── -->
+  <div class="sidebar">
+    <div class="sidebar-scroll">
+
+      <!-- Friends -->
+      <div class="section-title">Friends' Locations</div>
+      <div id="friends-list"></div>
+      <button id="add-friend-btn">+ Add another location</button>
+
+      <!-- Triangulate by -->
+      <div class="section-title" style="margin-top:18px">Triangulate by</div>
+      <div class="tri-toggle">
+        <button class="tri-btn active" data-tri="distance">📍 Distance</button>
+        <button class="tri-btn"        data-tri="time">⏱ Travel Time</button>
+      </div>
+
+      <!-- Travel mode (shown only for time) -->
+      <div id="travel-mode-section" style="display:none">
+        <div class="section-title">Travel Mode</div>
+        <div class="travel-modes">
+          <button class="travel-btn active" data-travel="DRIVING">🚗 Drive</button>
+          <button class="travel-btn"        data-travel="TRANSIT">🚌 Transit</button>
+          <button class="travel-btn"        data-travel="BICYCLING">🚲 Bike</button>
+          <button class="travel-btn"        data-travel="WALKING">🚶 Walk</button>
+        </div>
+      </div>
+
+      <!-- Search radius -->
+      <div class="options-row">
+        <label for="radius-input">Search radius:</label>
+        <input id="radius-input" type="number" value="1000" min="200" max="10000" step="100" />
+        <label>meters</label>
+      </div>
+
+      <button id="find-btn" disabled>Find Coffee Spots</button>
+      <button id="move-btn">✥ Drag midpoint on map</button>
+      <div id="status"></div>
+      <div id="results-section"></div>
+
+    </div>
+  </div>
+
+  <!-- ── Map ── -->
+  <div id="map-container" style="position:relative;">
+    <div class="map-placeholder" id="map-placeholder">
+      <span class="icon">🗺️</span>
+      <span>Loading map…</span>
+    </div>
+    <div id="map" style="display:none;"></div>
+
+    <!-- ── Place detail panel ── -->
+    <div id="place-detail">
+      <button id="detail-close" title="Close">✕</button>
+
+      <!-- Photos -->
+      <div id="detail-photos">
+        <div id="detail-no-photo">☕</div>
+        <button class="photo-nav" id="photo-prev">‹</button>
+        <button class="photo-nav" id="photo-next">›</button>
+        <span id="photo-counter"></span>
+      </div>
+
+      <!-- Header -->
+      <div id="detail-header">
+        <div id="detail-name">Loading…</div>
+        <div id="detail-meta"></div>
+        <div class="detail-actions" id="detail-actions"></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="detail-tabs">
+        <button class="detail-tab active" data-tab="overview">Overview</button>
+        <button class="detail-tab"        data-tab="reviews">Reviews</button>
+        <button class="detail-tab"        data-tab="photos">Photos</button>
+      </div>
+
+      <!-- Tab contents -->
+      <div class="detail-tab-content active" id="tab-overview">
+        <div id="detail-loading">⏳ Loading details…</div>
+      </div>
+      <div class="detail-tab-content" id="tab-reviews"></div>
+      <div class="detail-tab-content" id="tab-photos"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Config ─────────────────────────────────────────────────────────────────
+const GOOGLE_MAPS_API_KEY = '__GMAPS_KEY__';
+
+// ── State ──────────────────────────────────────────────────────────────────
+const COLORS = ['#e05252','#5aad7a','#5282e0','#d4920a','#9b59b6','#e07a30','#1abc9c','#e91e63'];
+let friends     = [];
+let nextId      = 0;
+let triMode     = 'distance'; // 'distance' | 'time'
+let travelMode  = 'DRIVING';
+let map, placesService, distMatrixService, geocoder, midpointMarker;
+let lastResolved = [], lastRadius = 1000;
+let cafeMarkers    = [];
+let friendLines    = [];
+let distLabels     = [];
+let radiusCircle   = null;
+let selectedCard   = null;
+let currentMidpoint  = null;
+let autoLocFriendId  = null;   // id of the friend using device location
+let mapsLoaded       = false;
+
+// ── DOM refs ───────────────────────────────────────────────────────────────
+const friendsList   = document.getElementById('friends-list');
+const addBtn        = document.getElementById('add-friend-btn');
+const findBtn       = document.getElementById('find-btn');
+const statusEl      = document.getElementById('status');
+const resultsEl     = document.getElementById('results-section');
+const radiusInput   = document.getElementById('radius-input');
+const travelSection = document.getElementById('travel-mode-section');
+
+// ── Load Google Maps ───────────────────────────────────────────────────────
+(function () {
+  const s = document.createElement('script');
+  s.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=onMapsReady&loading=async`;
+  s.async = true;
+  s.onerror = () => setStatus('Failed to load Google Maps. Check your API key.', true);
+  document.head.appendChild(s);
+})();
+
+window.onMapsReady = function () {
+  mapsLoaded = true;
+  document.getElementById('map-placeholder').style.display = 'none';
+  document.getElementById('map').style.display = 'block';
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: -33.8688, lng: 151.2093 },
+    zoom: 12,
+    styles: mapStyles(),
+    mapTypeControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+  });
+
+  placesService     = new google.maps.places.PlacesService(map);
+  distMatrixService = new google.maps.DistanceMatrixService();
+  geocoder          = new google.maps.Geocoder();
+
+  findBtn.disabled = false;
+  setStatus("Enter your friends' locations and click Find.");
+  friends.forEach(f => attachAutocomplete(f));
+};
+
+// ── Triangulate toggle ─────────────────────────────────────────────────────
+document.querySelectorAll('.tri-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tri-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    triMode = btn.dataset.tri;
+    travelSection.style.display = triMode === 'time' ? 'block' : 'none';
+  });
+});
+
+// ── Travel mode buttons ────────────────────────────────────────────────────
+document.querySelectorAll('.travel-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.travel-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    travelMode = btn.dataset.travel;
+  });
+});
+
+// ── Friend management ──────────────────────────────────────────────────────
+function addFriend(placeholder = '') {
+  const id     = nextId++;
+  const color  = COLORS[friends.length % COLORS.length];
+  const friend = { id, color, latLng: null, input: null, marker: null, name: '' };
+
+  const row = document.createElement('div');
+  row.className = 'friend-row';
+  row.dataset.id = id;
+
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.className = 'name-input';
+  nameInput.placeholder = 'Name';
+  nameInput.autocomplete = 'off';
+  nameInput.style.borderLeftColor = color;
+  nameInput.addEventListener('input', () => {
+    friend.name = nameInput.value;
+    if (friend.marker && friend.latLng) updateFriendMarker(friend);
+  });
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'friend-input';
+  input.placeholder = placeholder || `Friend ${friends.length + 1}'s address`;
+  input.autocomplete = 'off';
+  friend.input = input;
+
+  input.addEventListener('input', () => {
+    friend.latLng = null;
+    input.classList.remove('resolved', 'error');
+  });
+
+  if (mapsLoaded) attachAutocomplete(friend);
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'remove-btn';
+  removeBtn.title = 'Remove';
+  removeBtn.textContent = '×';
+  removeBtn.addEventListener('click', () => removeFriend(id));
+
+  const locBtn = document.createElement('button');
+  locBtn.className = 'loc-btn';
+  locBtn.title = 'Use my current location';
+  locBtn.textContent = '📍';
+  locBtn.addEventListener('click', () => useCurrentLocation(friend, locBtn));
+  friend.locBtn = locBtn;
+
+  row.appendChild(nameInput);
+  row.appendChild(input);
+  row.appendChild(locBtn);
+  row.appendChild(removeBtn);
+  friendsList.appendChild(row);
+  friends.push(friend);
+  return friend;
+}
+
+function removeFriend(id) {
+  const idx = friends.findIndex(f => f.id === id);
+  if (idx === -1) return;
+  const [f] = friends.splice(idx, 1);
+  if (f.marker) f.marker.setMap(null);
+  if (f._dropdown) f._dropdown.remove();
+  document.querySelector(`.friend-row[data-id="${id}"]`).remove();
+  if (autoLocFriendId === id) restoreAllLocButtons();
+  clearResults();
+}
+
+function useCurrentLocation(friend, btn) {
+  if (!navigator.geolocation) { setStatus('Geolocation not supported.', true); return; }
+  btn.disabled = true;
+  btn.textContent = '⏳';
+
+  function onResolved() {
+    // Hide every other friend's loc button
+    autoLocFriendId = friend.id;
+    friends.forEach(f => {
+      if (f.id !== friend.id && f.locBtn) f.locBtn.style.display = 'none';
+    });
+    btn.disabled = false;
+    btn.textContent = '📍';
+  }
+
+  navigator.geolocation.getCurrentPosition(pos => {
+    const latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+    if (geocoder) {
+      geocoder.geocode({ location: latLng }, (results, status) => {
+        friend.input.value = (status === 'OK' && results[0])
+          ? results[0].formatted_address
+          : `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+        friend.latLng = latLng;
+        friend.input.classList.add('resolved');
+        friend.input.classList.remove('error');
+        updateFriendMarker(friend);
+        onResolved();
+      });
+    } else {
+      friend.input.value = `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+      friend.latLng = latLng;
+      friend.input.classList.add('resolved');
+      updateFriendMarker(friend);
+      onResolved();
+    }
+  }, err => {
+    setStatus('Could not get location: ' + err.message, true);
+    btn.disabled = false;
+    btn.textContent = '📍';
+  });
+}
+
+function restoreAllLocButtons() {
+  autoLocFriendId = null;
+  friends.forEach(f => { if (f.locBtn) f.locBtn.style.display = ''; });
+}
+
+function attachAutocomplete(friend) {
+  const acService = new google.maps.places.AutocompleteService();
+  const input = friend.input;
+
+  // Build dropdown
+  const dropdown = document.createElement('div');
+  dropdown.className = 'autocomplete-dropdown';
+  document.body.appendChild(dropdown);
+  friend._dropdown = dropdown;
+
+  let debounceTimer;
+  let activeIdx = -1;
+  let currentPredictions = [];
+
+  function positionDropdown() {
+    const r = input.getBoundingClientRect();
+    dropdown.style.left  = r.left + 'px';
+    dropdown.style.top   = (r.bottom + 4) + 'px';
+    dropdown.style.width = r.width + 'px';
+  }
+
+  function hideDropdown() {
+    dropdown.style.display = 'none';
+    activeIdx = -1;
+    currentPredictions = [];
+  }
+
+  function selectPrediction(pred) {
+    input.value = pred.description;
+    hideDropdown();
+    geocoder.geocode({ placeId: pred.place_id }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        friend.latLng = results[0].geometry.location;
+        input.classList.add('resolved');
+        input.classList.remove('error');
+        updateFriendMarker(friend);
+      } else {
+        input.classList.add('error');
+      }
+    });
+  }
+
+  function renderDropdown(predictions) {
+    currentPredictions = predictions;
+    dropdown.innerHTML = '';
+    activeIdx = -1;
+    positionDropdown();
+    dropdown.style.display = 'block';
+
+    predictions.forEach((pred, i) => {
+      const item = document.createElement('div');
+      item.className = 'autocomplete-item';
+      // Bold the main text, muted secondary text
+      const main = pred.structured_formatting?.main_text || pred.description;
+      const sub  = pred.structured_formatting?.secondary_text || '';
+      item.innerHTML = `<strong>${main}</strong>${sub ? ` <span>· ${sub}</span>` : ''}`;
+      item.addEventListener('mousedown', e => { e.preventDefault(); selectPrediction(pred); });
+      item.addEventListener('mouseover', () => {
+        dropdown.querySelectorAll('.autocomplete-item').forEach(el => el.classList.remove('active'));
+        item.classList.add('active');
+        activeIdx = i;
+      });
+      dropdown.appendChild(item);
+    });
+  }
+
+  input.addEventListener('input', () => {
+    friend.latLng = null;
+    input.classList.remove('resolved', 'error');
+    clearTimeout(debounceTimer);
+    const val = input.value.trim();
+    if (!val) { hideDropdown(); return; }
+    debounceTimer = setTimeout(() => {
+      acService.getPlacePredictions({
+        input: val,
+        componentRestrictions: { country: 'au' },
+        location: new google.maps.LatLng(-33.8688, 151.2093),
+        radius: 100000,
+      }, (predictions, status) => {
+        if (status !== google.maps.places.PlacesServiceStatus.OK || !predictions?.length) {
+          hideDropdown(); return;
+        }
+        renderDropdown(predictions);
+      });
+    }, 200);
+  });
+
+  // Keyboard nav
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (activeIdx >= 0 && currentPredictions[activeIdx]) selectPrediction(currentPredictions[activeIdx]);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const items = dropdown.querySelectorAll('.autocomplete-item');
+      activeIdx = Math.min(activeIdx + 1, items.length - 1);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const items = dropdown.querySelectorAll('.autocomplete-item');
+      activeIdx = Math.max(activeIdx - 1, 0);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+    } else if (e.key === 'Escape') {
+      hideDropdown();
+    }
+  });
+
+  input.addEventListener('blur',   () => setTimeout(hideDropdown, 150));
+  input.addEventListener('focus',  positionDropdown);
+  window.addEventListener('scroll', positionDropdown, true);
+  window.addEventListener('resize', positionDropdown);
+}
+
+function updateFriendMarker(friend) {
+  if (!map) return;
+  if (friend.marker) friend.marker.setMap(null);
+  friend.marker = new google.maps.Marker({
+    position: friend.latLng,
+    map,
+    title: friend.name || friend.input.value,
+    icon: friendMarkerIcon(friend.color, friend.name),
+  });
+  fitToFriends();
+}
+
+function friendMarkerIcon(color, name) {
+  const letter = name ? name.trim().charAt(0).toUpperCase() : '';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+    <circle cx="15" cy="15" r="13" fill="${color}" stroke="white" stroke-width="2.5"/>
+    ${letter ? `<text x="15" y="20" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" font-weight="700" fill="white">${letter}</text>` : ''}
+  </svg>`;
+  return {
+    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
+    scaledSize: new google.maps.Size(30, 30),
+    anchor: new google.maps.Point(15, 15),
+  };
+}
+
+function xMarkerIcon() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+    <circle cx="18" cy="18" r="16" fill="#2c1a0e" stroke="white" stroke-width="3"/>
+    <line x1="11" y1="11" x2="25" y2="25" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <line x1="25" y1="11" x2="11" y2="25" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  </svg>`;
+  return { url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg), scaledSize: new google.maps.Size(36, 36), anchor: new google.maps.Point(18, 18) };
+}
+
+function coffeeMarkerIcon() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+    <circle cx="18" cy="18" r="16" fill="#2c1a0e" stroke="white" stroke-width="3"/>
+    <text x="18" y="23" text-anchor="middle" font-size="16">☕</text>
+  </svg>`;
+  return { url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg), scaledSize: new google.maps.Size(36, 36), anchor: new google.maps.Point(18, 18) };
+}
+
+function fitToFriends() {
+  const lls = friends.filter(f => f.latLng).map(f => f.latLng);
+  if (!lls.length) return;
+  const bounds = new google.maps.LatLngBounds();
+  lls.forEach(ll => bounds.extend(ll));
+  map.fitBounds(bounds, { padding: 60 });
+}
+
+// ── Find coffee ────────────────────────────────────────────────────────────
+findBtn.addEventListener('click', findCoffee);
+
+async function findCoffee() {
+  const resolved = friends.filter(f => f.latLng);
+  if (resolved.length < 2) {
+    setStatus('Please enter at least 2 valid addresses.', true);
+    return;
+  }
+
+  clearResults();
+  findBtn.disabled = true;
+
+  let midpoint;
+  try {
+    if (triMode === 'time') {
+      setStatus(`Finding equidistant point by ${travelMode.toLowerCase()} time…`);
+      midpoint = await findMidpointByTime(resolved);
+    } else {
+      setStatus('Calculating geographic midpoint…');
+      midpoint = geoCentroid(resolved);
+    }
+  } catch (err) {
+    findBtn.disabled = false;
+    setStatus('Error calculating midpoint: ' + err, true);
+    return;
+  }
+
+  lastResolved = resolved;
+  lastRadius   = parseInt(radiusInput.value) || 1000;
+
+  placeMidpointVisuals(midpoint, resolved, lastRadius);
+  findBtn.disabled = false;
+  document.getElementById('move-btn').style.display = 'block';
+  searchCafesAt(midpoint);
+}
+
+function placeMidpointVisuals(midpoint, resolved, radius) {
+  // Marker — not draggable until toggle button is clicked
+  if (midpointMarker) midpointMarker.setMap(null);
+  currentMidpoint = midpoint;
+  midpointMarker = new google.maps.Marker({
+    position: midpoint,
+    map,
+    title: 'Calculated midpoint',
+    draggable: false,
+    icon: xMarkerIcon(),
+    zIndex: 10,
+  });
+
+  // Update circle + lines + labels live while dragging
+  midpointMarker.addListener('drag', () => {
+    const pos = midpointMarker.getPosition();
+    radiusCircle.setCenter(pos);
+    friendLines.forEach((line, i) => {
+      line.getPath().setAt(1, pos);
+      const fLatLng = resolved[i].latLng;
+      const midLat  = (fLatLng.lat() + pos.lat()) / 2;
+      const midLng  = (fLatLng.lng() + pos.lng()) / 2;
+      const dist    = haversine(fLatLng.lat(), fLatLng.lng(), pos.lat(), pos.lng());
+      distLabels[i].setPosition({ lat: midLat, lng: midLng });
+      distLabels[i].setIcon(makeDistLabelIcon(dist, resolved[i].color));
+    });
+  });
+
+  // Re-search on drop
+  midpointMarker.addListener('dragend', () => {
+    const pos = midpointMarker.getPosition();
+    searchCafesAt({ lat: pos.lat(), lng: pos.lng() });
+  });
+
+  // Radius circle
+  if (radiusCircle) radiusCircle.setMap(null);
+  radiusCircle = new google.maps.Circle({
+    map,
+    center: midpoint,
+    radius,
+    fillColor: '#c4843a',
+    fillOpacity: 0.08,
+    strokeColor: '#c4843a',
+    strokeOpacity: 0.5,
+    strokeWeight: 1.5,
+  });
+
+  // Dotted lines + distance labels
+  friendLines.forEach(l => l.setMap(null));
+  distLabels.forEach(l => l.setMap(null));
+
+  const mid = new google.maps.LatLng(midpoint.lat, midpoint.lng);
+  friendLines = [];
+  distLabels  = [];
+
+  resolved.forEach(f => {
+    friendLines.push(new google.maps.Polyline({
+      map,
+      path: [f.latLng, mid],
+      strokeColor: f.color,
+      strokeOpacity: 0,
+      strokeWeight: 2,
+      icons: [{ icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, scale: 3 }, offset: '0', repeat: '12px' }],
+    }));
+
+    const midLat = (f.latLng.lat() + midpoint.lat) / 2;
+    const midLng = (f.latLng.lng() + midpoint.lng) / 2;
+    const dist   = haversine(f.latLng.lat(), f.latLng.lng(), midpoint.lat, midpoint.lng);
+
+    distLabels.push(new google.maps.Marker({
+      position: { lat: midLat, lng: midLng },
+      map,
+      icon: makeDistLabelIcon(dist, f.color),
+      clickable: false,
+      zIndex: 5,
+    }));
+  });
+}
+
+function makeDistLabelIcon(distMeters, color) {
+  const text = distMeters >= 1000
+    ? (distMeters / 1000).toFixed(1) + ' km'
+    : Math.round(distMeters) + ' m';
+  const w = 62, h = 22;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+    <rect x="1" y="1" width="${w-2}" height="${h-2}" rx="10" ry="10"
+          fill="white" stroke="${color}" stroke-width="1.5" opacity="0.92"/>
+    <text x="${w/2}" y="15" text-anchor="middle"
+          font-family="-apple-system,sans-serif" font-size="11" font-weight="700"
+          fill="${color}">${text}</text>
+  </svg>`;
+  return {
+    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
+    scaledSize: new google.maps.Size(w, h),
+    anchor: new google.maps.Point(w / 2, h / 2),
+  };
+}
+
+// Fetch all pages of a nearbySearch (up to 60 results)
+function paginatedSearch(request) {
+  return new Promise(resolve => {
+    const results = [];
+    function handlePage(res, status, pagination) {
+      if (status === google.maps.places.PlacesServiceStatus.OK && res) {
+        results.push(...res);
+        if (pagination && pagination.hasNextPage) {
+          setTimeout(() => pagination.nextPage(), 300);
+        } else {
+          resolve(results);
+        }
+      } else {
+        resolve(results);
+      }
+    }
+    placesService.nearbySearch(request, handlePage);
+  });
+}
+
+async function searchCafesAt(midpoint) {
+  cafeMarkers.forEach(m => m.setMap(null));
+  cafeMarkers = [];
+  resultsEl.innerHTML = '';
+  selectedCard = null;
+  if (midpointMarker) {
+    currentMidpoint = midpoint;
+    midpointMarker.setPosition(midpoint);
+    midpointMarker.setIcon(xMarkerIcon());
+  }
+
+  setStatus('Searching comprehensively for coffee spots…');
+
+  // Three parallel searches — deduplicated and filtered client-side
+  const base = { location: midpoint, radius: lastRadius };
+  const [r1, r2, r3] = await Promise.all([
+    paginatedSearch({ ...base, type: 'cafe' }),
+    paginatedSearch({ ...base, keyword: 'coffee' }),
+    paginatedSearch({ ...base, keyword: 'espresso bar' }),
+  ]);
+
+  // Deduplicate by place_id
+  const seen = new Set();
+  const all = [];
+  for (const place of [...r1, ...r2, ...r3]) {
+    if (!seen.has(place.place_id)) {
+      seen.add(place.place_id);
+      all.push(place);
+    }
+  }
+
+  // Strictly filter to radius and sort by distance
+  const inRadius = all
+    .map(p => ({ place: p, dist: haversine(midpoint.lat, midpoint.lng, p.geometry.location.lat(), p.geometry.location.lng()) }))
+    .filter(({ dist }) => dist <= lastRadius)
+    .sort((a, b) => a.dist - b.dist)
+    .map(({ place }) => place);
+
+  if (!inRadius.length) {
+    setStatus('No coffee shops found within the radius. Try increasing it.', true);
+    findBtn.disabled = false;
+    return;
+  }
+
+  setStatus(`Found ${inRadius.length} coffee spots within your radius.`);
+  renderResults(inRadius, midpoint);
+
+  const bounds = new google.maps.LatLngBounds();
+  bounds.extend(midpoint);
+  lastResolved.forEach(f => bounds.extend(f.latLng));
+  inRadius.slice(0, 5).forEach(r => bounds.extend(r.geometry.location));
+  map.fitBounds(bounds, { padding: 60 });
+}
+
+// ── Geographic centroid ────────────────────────────────────────────────────
+function geoCentroid(resolved) {
+  return {
+    lat: resolved.reduce((s, f) => s + f.latLng.lat(), 0) / resolved.length,
+    lng: resolved.reduce((s, f) => s + f.latLng.lng(), 0) / resolved.length,
+  };
+}
+
+// ── Time-based equidistant search ──────────────────────────────────────────
+// Iterative grid search: 3 rounds, each narrowing on the best candidate.
+async function findMidpointByTime(resolved) {
+  let center = geoCentroid(resolved);
+
+  // Initial search radius = half the max pairwise distance between friends
+  let radius = maxPairDistanceMeters(resolved) / 2;
+
+  for (let round = 0; round < 3; round++) {
+    const candidates = generateGrid(center, radius);
+    center = await bestCandidateByTime(candidates, resolved);
+    radius /= 2.5;
+  }
+  return center;
+}
+
+// 9-point grid: center + 8 compass directions
+function generateGrid(center, radiusMeters) {
+  const pts = [{ lat: center.lat, lng: center.lng }];
+  const latDelta = radiusMeters / 111000;
+  const lngDelta = radiusMeters / (111000 * Math.cos(center.lat * Math.PI / 180));
+  const dirs = [
+    [ 1,  0], [ 1,  1], [ 0,  1], [-1,  1],
+    [-1,  0], [-1, -1], [ 0, -1], [ 1, -1],
+  ];
+  dirs.forEach(([dlat, dlng]) => pts.push({
+    lat: center.lat + dlat * latDelta,
+    lng: center.lng + dlng * lngDelta,
+  }));
+  return pts;
+}
+
+function bestCandidateByTime(candidates, resolved) {
+  return new Promise((resolve, reject) => {
+    distMatrixService.getDistanceMatrix({
+      origins: resolved.map(f => f.latLng),
+      destinations: candidates,
+      travelMode: google.maps.TravelMode[travelMode],
+      unitSystem: google.maps.UnitSystem.METRIC,
+    }, (response, status) => {
+      if (status !== 'OK') { reject(status); return; }
+
+      let best = candidates[0];
+      let bestScore = Infinity;
+
+      candidates.forEach((candidate, di) => {
+        let maxTime = 0;
+        let valid = true;
+        response.rows.forEach(row => {
+          const el = row.elements[di];
+          if (!el || el.status !== 'OK') { valid = false; return; }
+          maxTime = Math.max(maxTime, el.duration.value); // seconds
+        });
+        if (valid && maxTime < bestScore) {
+          bestScore = maxTime;
+          best = candidate;
+        }
+      });
+
+      resolve(best);
+    });
+  });
+}
+
+function maxPairDistanceMeters(resolved) {
+  let max = 0;
+  for (let i = 0; i < resolved.length; i++)
+    for (let j = i + 1; j < resolved.length; j++)
+      max = Math.max(max, haversine(
+        resolved[i].latLng.lat(), resolved[i].latLng.lng(),
+        resolved[j].latLng.lat(), resolved[j].latLng.lng()
+      ));
+  return Math.max(max, 500);
+}
+
+// ── Render results ─────────────────────────────────────────────────────────
+function renderResults(places, midpoint) {
+  cafeMarkers.forEach(m => m.setMap(null));
+  cafeMarkers = [];
+  resultsEl.innerHTML = `<div class="section-title" style="margin-bottom:10px">Coffee Spots</div>`;
+
+  places.slice(0, 10).forEach((place, i) => {
+    const dist = haversine(
+      midpoint.lat, midpoint.lng,
+      place.geometry.location.lat(), place.geometry.location.lng()
+    );
+
+    const card = document.createElement('div');
+    card.className = 'cafe-card';
+
+    const stars = place.rating
+      ? '★'.repeat(Math.round(place.rating)) + '☆'.repeat(5 - Math.round(place.rating))
+      : '';
+    const openStatus = place.opening_hours
+      ? (place.opening_hours.isOpen()
+          ? '<span class="cafe-open">Open now</span>'
+          : '<span class="cafe-closed">Closed</span>')
+      : '';
+
+    const mapsUrl = `https://www.google.com/maps/place/?q=place_id:${place.place_id}`;
+    const dirUrl  = `https://www.google.com/maps/dir/?api=1&destination_place_id=${place.place_id}`;
+
+    card.innerHTML = `
+      <div class="cafe-name">${i + 1}. ${place.name}</div>
+      <div class="cafe-meta">
+        ${place.rating ? `<span class="cafe-rating">${stars} ${place.rating.toFixed(1)}</span>` : ''}
+        ${place.user_ratings_total ? `<span>(${place.user_ratings_total})</span>` : ''}
+        <span>${Math.round(dist)}m from midpoint</span>
+        ${openStatus}
+      </div>
+      <div class="cafe-meta" style="margin-top:3px">${place.vicinity || ''}</div>
+      <div class="cafe-actions">
+        <a href="${mapsUrl}" target="_blank" rel="noopener">View on Maps</a>
+        <a href="${dirUrl}" target="_blank" rel="noopener">Get Directions</a>
+      </div>`;
+
+    const marker = new google.maps.Marker({
+      position: place.geometry.location,
+      map,
+      title: place.name,
+      label: { text: String(i + 1), color: '#fff', fontSize: '12px', fontWeight: 'bold' },
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 14,
+        fillColor: '#c4843a',
+        fillOpacity: 1,
+        strokeColor: '#fff',
+        strokeWeight: 2,
+      },
+    });
+
+    const cafeLatLng = place.geometry.location;
+    card.addEventListener('click', () => selectCafe(card, marker, cafeLatLng, place.place_id));
+    marker.addListener('click',    () => selectCafe(card, marker, cafeLatLng, place.place_id));
+    resultsEl.appendChild(card);
+    cafeMarkers.push(marker);
+  });
+}
+
+// ── Place detail panel ────────────────────────────────────────────────────
+const detailPanel  = document.getElementById('place-detail');
+const detailPhotos = document.getElementById('detail-photos');
+let photoUrls = [];
+let photoIdx  = 0;
+
+document.getElementById('detail-close').addEventListener('click', closeDetail);
+document.getElementById('photo-prev').addEventListener('click', () => cyclePhoto(-1));
+document.getElementById('photo-next').addEventListener('click', () => cyclePhoto(1));
+
+document.querySelectorAll('.detail-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.detail-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.detail-tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+function closeDetail() {
+  detailPanel.classList.remove('open');
+}
+
+function cyclePhoto(dir) {
+  if (!photoUrls.length) return;
+  photoIdx = (photoIdx + dir + photoUrls.length) % photoUrls.length;
+  renderPhoto();
+}
+
+function renderPhoto() {
+  detailPhotos.querySelectorAll('img').forEach(img => img.classList.remove('active'));
+  const imgs = detailPhotos.querySelectorAll('img');
+  if (imgs[photoIdx]) imgs[photoIdx].classList.add('active');
+  const counter = document.getElementById('photo-counter');
+  counter.textContent = photoUrls.length > 1 ? `${photoIdx + 1} / ${photoUrls.length}` : '';
+}
+
+function showPlaceDetail(placeId) {
+  // Reset & open panel
+  detailPanel.classList.add('open');
+  document.getElementById('detail-name').textContent = 'Loading…';
+  document.getElementById('detail-meta').innerHTML   = '';
+  document.getElementById('detail-actions').innerHTML = '';
+  document.getElementById('tab-overview').innerHTML  = '<div id="detail-loading">⏳ Loading details…</div>';
+  document.getElementById('tab-reviews').innerHTML   = '';
+  document.getElementById('tab-photos').innerHTML    = '';
+  document.querySelectorAll('.detail-tab').forEach((b, i) => b.classList.toggle('active', i === 0));
+  document.querySelectorAll('.detail-tab-content').forEach((c, i) => c.classList.toggle('active', i === 0));
+
+  // Clear photos
+  detailPhotos.querySelectorAll('img').forEach(img => img.remove());
+  document.getElementById('detail-no-photo').style.display = 'flex';
+  document.getElementById('photo-counter').textContent = '';
+  document.getElementById('photo-prev').style.display = 'none';
+  document.getElementById('photo-next').style.display = 'none';
+  photoUrls = []; photoIdx = 0;
+
+  placesService.getDetails({
+    placeId,
+    fields: [
+      'name', 'rating', 'user_ratings_total', 'price_level',
+      'formatted_address', 'formatted_phone_number', 'website', 'url',
+      'opening_hours', 'photos', 'reviews', 'editorial_summary', 'types',
+    ],
+  }, (place, status) => {
+    if (status !== google.maps.places.PlacesServiceStatus.OK || !place) {
+      document.getElementById('tab-overview').innerHTML = '<div style="padding:20px;color:#c04040">Could not load place details.</div>';
+      return;
+    }
+
+    // ── Photos ──
+    if (place.photos && place.photos.length) {
+      document.getElementById('detail-no-photo').style.display = 'none';
+      photoUrls = place.photos.slice(0, 10).map(p => p.getUrl({ maxWidth: 720, maxHeight: 480 }));
+      photoUrls.forEach((url, i) => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = place.name;
+        if (i === 0) img.classList.add('active');
+        detailPhotos.insertBefore(img, document.getElementById('photo-prev'));
+      });
+      if (photoUrls.length > 1) {
+        document.getElementById('photo-prev').style.display = 'flex';
+        document.getElementById('photo-next').style.display = 'flex';
+      }
+      document.getElementById('photo-counter').textContent = photoUrls.length > 1 ? `1 / ${photoUrls.length}` : '';
+    }
+
+    // ── Header ──
+    document.getElementById('detail-name').textContent = place.name;
+    const price   = place.price_level ? '$'.repeat(place.price_level) : '';
+    const isOpen  = place.opening_hours?.isOpen();
+    const openStr = place.opening_hours
+      ? `<span class="${isOpen ? 'open' : 'closed'}">${isOpen ? 'Open now' : 'Closed'}</span>` : '';
+    const stars   = place.rating
+      ? '<span class="stars">' + '★'.repeat(Math.round(place.rating)) + '☆'.repeat(5 - Math.round(place.rating)) + '</span>'
+      : '';
+    document.getElementById('detail-meta').innerHTML =
+      `${stars}${place.rating ? `<strong>${place.rating.toFixed(1)}</strong> (${place.user_ratings_total?.toLocaleString() || 0})` : ''}
+       ${price ? `<span class="price">${price}</span>` : ''}
+       ${openStr}`;
+
+    // ── Action buttons ──
+    const actions = [
+      { icon: '🗺️', label: 'Google Maps', href: place.url },
+      { icon: '🧭', label: 'Directions',  href: `https://www.google.com/maps/dir/?api=1&destination_place_id=${placeId}` },
+    ];
+    if (place.website) actions.push({ icon: '🌐', label: 'Website', href: place.website });
+    if (place.formatted_phone_number) actions.push({ icon: '📞', label: place.formatted_phone_number, href: `tel:${place.formatted_phone_number}` });
+
+    document.getElementById('detail-actions').innerHTML = actions.map(a =>
+      `<a class="detail-action-btn" href="${a.href}" target="_blank" rel="noopener">
+         <span class="icon">${a.icon}</span>${a.label}
+       </a>`
+    ).join('');
+
+    // ── Overview tab ──
+    const rows = [];
+
+    if (place.editorial_summary?.overview) {
+      rows.push(`<div class="detail-info-row">
+        <span class="row-icon">ℹ️</span>
+        <div><div class="row-val">${place.editorial_summary.overview}</div></div>
+      </div>`);
+    }
+
+    if (place.opening_hours?.weekday_text) {
+      const today = new Date().getDay(); // 0=Sun
+      const googleDay = today === 0 ? 6 : today - 1; // Google: Mon=0
+      const hoursHtml = place.opening_hours.weekday_text.map((line, i) =>
+        `<div class="${i === googleDay ? 'hours-today' : ''}">${line}</div>`
+      ).join('');
+      rows.push(`<div class="detail-info-row">
+        <span class="row-icon">🕐</span>
+        <div>
+          <div class="row-label">${isOpen ? 'Open now' : 'Closed'}</div>
+          <div class="hours-list">${hoursHtml}</div>
+        </div>
+      </div>`);
+    }
+
+    if (place.formatted_address) {
+      rows.push(`<div class="detail-info-row">
+        <span class="row-icon">📍</span>
+        <div>
+          <div class="row-label">Address</div>
+          <div class="row-val">${place.formatted_address}</div>
+        </div>
+      </div>`);
+    }
+
+    if (place.formatted_phone_number) {
+      rows.push(`<div class="detail-info-row">
+        <span class="row-icon">📞</span>
+        <div>
+          <div class="row-label">Phone</div>
+          <div class="row-val"><a href="tel:${place.formatted_phone_number}">${place.formatted_phone_number}</a></div>
+        </div>
+      </div>`);
+    }
+
+    if (place.website) {
+      const domain = new URL(place.website).hostname.replace('www.', '');
+      rows.push(`<div class="detail-info-row">
+        <span class="row-icon">🌐</span>
+        <div>
+          <div class="row-label">Website</div>
+          <div class="row-val"><a href="${place.website}" target="_blank" rel="noopener">${domain}</a></div>
+        </div>
+      </div>`);
+    }
+
+    // Maps embed
+    const embedSrc = `https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=place_id:${placeId}`;
+    rows.push(`<iframe class="detail-map-embed" src="${embedSrc}" allowfullscreen loading="lazy"></iframe>`);
+
+    document.getElementById('tab-overview').innerHTML = rows.join('');
+
+    // ── Reviews tab ──
+    if (place.reviews && place.reviews.length) {
+      document.getElementById('tab-reviews').innerHTML = place.reviews.map(r => {
+        const rStars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        const longText = r.text.length > 280;
+        const id = 'rv-' + Math.random().toString(36).slice(2);
+        return `<div class="review-card">
+          <div class="review-header">
+            ${r.profile_photo_url ? `<img class="review-avatar" src="${r.profile_photo_url}" alt="">` : '<div class="review-avatar"></div>'}
+            <div>
+              <div class="review-author">${r.author_name}</div>
+              <div class="review-date">${r.relative_time_description}</div>
+              <div class="review-stars">${rStars}</div>
+            </div>
+          </div>
+          <div class="review-text ${longText ? 'collapsed' : ''}" id="${id}">${r.text}</div>
+          ${longText ? `<button class="review-expand" onclick="
+            var el=document.getElementById('${id}');
+            var btn=this;
+            el.classList.toggle('collapsed');
+            btn.textContent=el.classList.contains('collapsed')?'Show more':'Show less';
+          ">Show more</button>` : ''}
+        </div>`;
+      }).join('');
+    } else {
+      document.getElementById('tab-reviews').innerHTML = '<div style="padding:20px;color:#8c6a4a;font-size:13px">No reviews available.</div>';
+    }
+
+    // ── Photos tab ──
+    if (place.photos && place.photos.length) {
+      document.getElementById('tab-photos').innerHTML =
+        `<div class="photos-grid">${
+          place.photos.map(p => {
+            const url = p.getUrl({ maxWidth: 400, maxHeight: 400 });
+            return `<img src="${url}" alt="${place.name}" onclick="window.open('${p.getUrl({ maxWidth: 1600, maxHeight: 1200 })}','_blank')">`;
+          }).join('')
+        }</div>`;
+    } else {
+      document.getElementById('tab-photos').innerHTML = '<div style="padding:20px;color:#8c6a4a;font-size:13px">No photos available.</div>';
+    }
+  });
+}
+
+function selectCafe(card, marker, cafeLatLng, placeId) {
+  if (selectedCard) selectedCard.classList.remove('selected');
+  card.classList.add('selected');
+  selectedCard = card;
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Move midpoint marker to selected cafe and switch to ☕
+  if (midpointMarker) {
+    midpointMarker.setPosition(cafeLatLng);
+    midpointMarker.setIcon(coffeeMarkerIcon());
+  }
+
+  // Redirect lines + labels to the selected cafe
+  lastResolved.forEach((f, i) => {
+    if (friendLines[i]) friendLines[i].getPath().setAt(1, cafeLatLng);
+    if (distLabels[i]) {
+      const midLat = (f.latLng.lat() + cafeLatLng.lat()) / 2;
+      const midLng = (f.latLng.lng() + cafeLatLng.lng()) / 2;
+      const dist   = haversine(f.latLng.lat(), f.latLng.lng(), cafeLatLng.lat(), cafeLatLng.lng());
+      distLabels[i].setPosition({ lat: midLat, lng: midLng });
+      distLabels[i].setIcon(makeDistLabelIcon(dist, f.color));
+    }
+  });
+
+  map.panTo(cafeLatLng);
+  if (placeId) showPlaceDetail(placeId);
+}
+
+function clearResults() {
+  resultsEl.innerHTML = '';
+  cafeMarkers.forEach(m => m.setMap(null));
+  cafeMarkers = [];
+  friendLines.forEach(l => l.setMap(null));
+  friendLines = [];
+  distLabels.forEach(l => l.setMap(null));
+  distLabels = [];
+  if (radiusCircle)   { radiusCircle.setMap(null);   radiusCircle   = null; }
+  if (midpointMarker) { midpointMarker.setMap(null);  midpointMarker = null; }
+  const moveBtn = document.getElementById('move-btn');
+  moveBtn.classList.remove('active');
+  moveBtn.style.display = 'none';
+  selectedCard = null;
+}
+
+// ── Utilities ──────────────────────────────────────────────────────────────
+function setStatus(msg, isError = false) {
+  statusEl.textContent = msg;
+  statusEl.className = isError ? 'error' : '';
+}
+
+function haversine(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2
+          + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function mapStyles() {
+  return [
+    { featureType: 'poi',       elementType: 'labels',   stylers: [{ visibility: 'off' }] },
+    { featureType: 'transit',   elementType: 'labels',   stylers: [{ visibility: 'off' }] },
+    { featureType: 'water',                              stylers: [{ color: '#d4e9f7' }]  },
+    { featureType: 'landscape',                          stylers: [{ color: '#f5f0ea' }]  },
+    { featureType: 'road',      elementType: 'geometry', stylers: [{ color: '#ffffff' }]  },
+    { featureType: 'road.arterial', elementType: 'geometry', stylers: [{ color: '#ffe8cc' }] },
+  ];
+}
+
+addBtn.addEventListener('click', () => addFriend());
+
+document.getElementById('move-btn').addEventListener('click', () => {
+  if (!midpointMarker) return;
+  const btn = document.getElementById('move-btn');
+  const active = btn.classList.toggle('active');
+  midpointMarker.setDraggable(active);
+  setStatus(active ? 'Drag the ☕ marker to reposition the search area.' : "Midpoint locked.");
+});
+
+// ── Init ───────────────────────────────────────────────────────────────────
+addFriend('e.g. 1 Macquarie St, Sydney NSW');
+addFriend('e.g. 100 George St, Sydney NSW');
+addFriend('e.g. 50 Elizabeth St, Sydney NSW');
+</script>
+</body>
+</html>
