@@ -9,66 +9,126 @@
   <style>
     /* ── CSS variables — swap for beer theme ── */
     :root {
-      --accent:        #c4843a;
-      --accent-soft:   #fce9d6;
-      --accent-hover:  #f0d0b0;
-      --accent-tint:   #fff8ee;
-      --header-bg:     #2c1a0e;
-      --page-bg:       #faf7f4;
-      --border:        #e0d0c0;
-      --border-light:  #e8ddd4;
-      --text:          #2c1a0e;
-      --text-muted:    #8c6a4a;
-      --text-mid:      #5c3d20;
-      --find-btn-bg:   #2c1a0e;
-      --find-btn-hover:#4a2d18;
+      --accent:         #c4843a;
+      --accent-2:       #9a5f20;           /* secondary accent for gradients */
+      --accent-soft:    #fce9d6;
+      --accent-hover:   #f0d0b0;
+      --accent-tint:    #fff8ee;
+      --accent-grad:    linear-gradient(135deg, #d59a4e 0%, #a26321 100%);
+      --header-bg:      #2c1a0e;
+      --header-grad:    linear-gradient(135deg, #3a2414 0%, #1a0f07 100%);
+      --page-bg:        #faf7f4;
+      --page-grad:      radial-gradient(ellipse 1200px 600px at 85% -10%, #faeedb 0%, transparent 60%),
+                        radial-gradient(ellipse  900px 600px at -10% 110%, #f5e6d2 0%, transparent 55%),
+                        #faf7f4;
+      --border:         #e0d0c0;
+      --border-light:   #ece0d2;
+      --text:           #2c1a0e;
+      --text-muted:     #8c6a4a;
+      --text-mid:       #5c3d20;
+      --find-btn-bg:    #2c1a0e;
+      --find-btn-hover: #4a2d18;
+      --find-btn-grad:  linear-gradient(135deg, #3a2414 0%, #1a0f07 100%);
+      --find-btn-hgrad: linear-gradient(135deg, #5a3920 0%, #2c1a0e 100%);
+      --glow:           rgba(196,132,58,.28);
+      --glow-strong:    rgba(196,132,58,.42);
+      --shadow-soft:    0 1px 2px rgba(80,45,20,.06), 0 4px 16px rgba(80,45,20,.08);
+      --shadow-hover:   0 2px 4px rgba(80,45,20,.08), 0 10px 28px rgba(80,45,20,.15);
+      --sidebar-grad:   linear-gradient(180deg, #ffffff 0%, #fdfaf5 100%);
+      --ring:           rgba(196,132,58,.22);
     }
     body.beer-theme {
-      --accent:        #d4860a;
-      --accent-soft:   #fef0cc;
-      --accent-hover:  #fce8a0;
-      --accent-tint:   #fff9e6;
-      --header-bg:     #3d2200;
-      --page-bg:       #fdf8ed;
-      --border:        #ddbf68;
-      --border-light:  #e8d48a;
-      --text:          #2c1800;
-      --text-muted:    #7a5818;
-      --text-mid:      #5a3a08;
-      --find-btn-bg:   #3d2200;
-      --find-btn-hover:#5a3a10;
+      --accent:         #e8a317;
+      --accent-2:       #b67a00;
+      --accent-soft:    #fff3c4;
+      --accent-hover:   #ffe58a;
+      --accent-tint:    #fffbe8;
+      --accent-grad:    linear-gradient(135deg, #f4b935 0%, #b07500 100%);
+      --header-bg:      #1f3a2b;
+      --header-grad:    linear-gradient(135deg, #2a4d3a 0%, #14291e 100%);
+      --page-bg:        #f5faf3;
+      --page-grad:      radial-gradient(ellipse 1200px 600px at 90% -10%, #fff3c4 0%, transparent 55%),
+                        radial-gradient(ellipse  900px 600px at -10% 110%, #e8f5e0 0%, transparent 55%),
+                        #f5faf3;
+      --border:         #c9b878;
+      --border-light:   #dcd2a6;
+      --text:           #1a2d22;
+      --text-muted:     #5a7868;
+      --text-mid:       #2f5140;
+      --find-btn-bg:    #1f3a2b;
+      --find-btn-hover: #2e5640;
+      --find-btn-grad:  linear-gradient(135deg, #2a4d3a 0%, #14291e 100%);
+      --find-btn-hgrad: linear-gradient(135deg, #3d6b50 0%, #1f3a2b 100%);
+      --glow:           rgba(232,163,23,.30);
+      --glow-strong:    rgba(232,163,23,.50);
+      --shadow-soft:    0 1px 2px rgba(30,60,40,.06), 0 4px 16px rgba(30,60,40,.10);
+      --shadow-hover:   0 2px 4px rgba(30,60,40,.08), 0 10px 28px rgba(30,60,40,.18);
+      --sidebar-grad:   linear-gradient(180deg, #ffffff 0%, #faf9ee 100%);
+      --ring:           rgba(232,163,23,.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--page-bg);
+      background: var(--page-grad);
       color: var(--text);
       min-height: 100vh;
       transition: background 0.4s ease, color 0.4s ease;
     }
 
     header {
-      background: var(--header-bg);
+      background: var(--header-grad);
       color: #fff;
       padding: 14px 24px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,.12);
       transition: background 0.4s ease;
     }
+    /* subtle decorative accent strip under the header */
+    header::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 2px;
+      background: var(--accent-grad);
+      opacity: 0.85;
+    }
     header .logo {
-      font-size: 26px;
+      font-size: 28px;
       cursor: pointer;
       user-select: none;
-      transition: transform 0.2s ease;
-      display: inline-block;
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), filter 0.25s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.18) 0%, rgba(255,255,255,.04) 60%, transparent 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 2px 8px rgba(0,0,0,.25);
+      filter: drop-shadow(0 0 8px var(--glow));
     }
-    header .logo:hover { transform: scale(1.2) rotate(-5deg); }
-    header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
-    header p  { font-size: 12px; color: #c4a882; margin-top: 2px; }
-    body.beer-theme header p { color: #f0cc80; }
+    header .logo:hover { transform: scale(1.15) rotate(-8deg); filter: drop-shadow(0 0 14px var(--glow-strong)); }
+    header h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      background: linear-gradient(135deg, #fff 0%, #fff 55%, #ffe9c2 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    body.beer-theme header h1 {
+      background: linear-gradient(135deg, #fff 0%, #fff 55%, #ffe58a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header p  { font-size: 12px; color: #c4a882; margin-top: 3px; letter-spacing: 0.2px; }
+    body.beer-theme header p { color: #e8c96a; }
 
     .container {
       display: grid;
@@ -78,28 +138,49 @@
 
     /* ── Sidebar ── */
     .sidebar {
-      background: #fff;
+      background: var(--sidebar-grad);
       border-right: 1px solid var(--border-light);
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      transition: border-color 0.3s;
+      transition: border-color 0.3s, background 0.4s;
+      box-shadow: inset -1px 0 0 rgba(255,255,255,.5);
     }
     .sidebar-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 16px 18px;
+      padding: 18px 18px 22px;
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .sidebar-scroll::-webkit-scrollbar { width: 8px; }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
     }
 
     .section-title {
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.4px;
       color: var(--text-muted);
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       transition: color 0.3s;
+    }
+    .section-title::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent-grad);
+      box-shadow: 0 0 0 3px var(--accent-tint);
+      flex-shrink: 0;
     }
 
     #friends-list { margin-bottom: 10px; }
@@ -112,34 +193,54 @@
     }
     .name-input {
       width: 62px;
-      padding: 8px 7px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 700;
-      background: var(--page-bg);
-      flex-shrink: 0;
-      min-width: 0;
-      color: var(--text);
-      border-left-width: 3px;
-      transition: background 0.3s, border-color 0.3s;
-    }
-    .name-input:focus { outline: 2px solid var(--accent); border-color: transparent; background: #fff; }
-
-    .friend-input {
-      flex: 1;
-      padding: 10px 11px;
+      padding: 9px 8px;
       border: 1px solid var(--border);
       border-radius: 8px;
       font-size: 14px;
-      background: var(--page-bg);
-      transition: border-color .15s, background 0.3s;
+      font-weight: 700;
+      background: #fff;
+      flex-shrink: 0;
       min-width: 0;
       color: var(--text);
+      border-left: 3px solid var(--accent);
+      box-shadow: 0 1px 2px rgba(0,0,0,.03);
+      transition: all 0.2s;
     }
-    .friend-input:focus   { outline: 2px solid var(--accent); border-color: transparent; background: #fff; }
-    .friend-input.resolved { border-color: #5aad7a; background: #f2fbf5; }
-    .friend-input.error    { border-color: #e05a5a; background: #fff5f5; }
+    .name-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--ring), 0 1px 2px rgba(0,0,0,.03);
+      background: #fff;
+    }
+
+    .friend-input {
+      flex: 1;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      background: #fff;
+      transition: all 0.2s;
+      min-width: 0;
+      color: var(--text);
+      box-shadow: 0 1px 2px rgba(0,0,0,.03);
+    }
+    .friend-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--ring), 0 1px 2px rgba(0,0,0,.03);
+      background: #fff;
+    }
+    .friend-input.resolved {
+      border-color: #5aad7a;
+      background: #f4fcf6;
+      box-shadow: 0 0 0 2px rgba(90,173,122,.12);
+    }
+    .friend-input.error {
+      border-color: #e05a5a;
+      background: #fff6f6;
+      box-shadow: 0 0 0 2px rgba(224,90,90,.12);
+    }
 
     .remove-btn, .loc-btn {
       background: none;
@@ -178,55 +279,78 @@
 
     #add-friend-btn {
       width: 100%;
-      padding: 10px;
+      padding: 11px;
       border: 1.5px dashed var(--accent);
-      border-radius: 8px;
+      border-radius: 10px;
       background: none;
       color: var(--accent);
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: background .15s, border-color 0.3s, color 0.3s;
+      transition: all .2s;
       touch-action: manipulation;
+      letter-spacing: 0.2px;
     }
-    #add-friend-btn:hover { background: var(--accent-soft); }
+    #add-friend-btn:hover {
+      background: var(--accent-soft);
+      border-style: solid;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--glow);
+    }
 
     /* ── Triangulate toggle ── */
-    .tri-toggle { display: flex; gap: 6px; margin-bottom: 10px; }
+    .tri-toggle {
+      display: flex;
+      gap: 0;
+      margin-bottom: 12px;
+      padding: 4px;
+      background: var(--accent-tint);
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+    }
     .tri-btn {
       flex: 1;
       padding: 10px 6px;
-      border: 1.5px solid var(--border);
+      border: none;
       border-radius: 8px;
-      background: var(--page-bg);
+      background: transparent;
       color: var(--text-muted);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: all .15s;
+      transition: all .2s;
       text-align: center;
       touch-action: manipulation;
     }
-    .tri-btn:hover  { border-color: var(--accent); color: var(--accent); }
-    .tri-btn.active { border-color: var(--accent); background: var(--accent-tint); color: var(--accent); }
+    .tri-btn:hover  { color: var(--accent); }
+    .tri-btn.active {
+      background: #fff;
+      color: var(--accent);
+      box-shadow: 0 2px 6px rgba(0,0,0,.08), 0 0 0 1px var(--border-light);
+    }
 
     /* ── Travel mode ── */
     #travel-mode-section { margin-bottom: 4px; }
     .travel-modes { display: flex; gap: 6px; flex-wrap: wrap; }
     .travel-btn {
-      padding: 8px 12px;
+      padding: 9px 13px;
       border: 1.5px solid var(--border);
-      border-radius: 7px;
-      background: var(--page-bg);
+      border-radius: 999px;
+      background: #fff;
       color: var(--text-muted);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: all .15s;
+      transition: all .2s;
       touch-action: manipulation;
     }
-    .travel-btn:hover  { border-color: var(--accent); color: var(--accent); }
-    .travel-btn.active { border-color: var(--accent); background: var(--accent-tint); color: var(--accent); }
+    .travel-btn:hover  { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+    .travel-btn.active {
+      border-color: transparent;
+      background: var(--accent-grad);
+      color: #fff;
+      box-shadow: 0 4px 12px var(--glow);
+    }
 
     /* Options */
     .options-row {
@@ -250,20 +374,40 @@
     /* Find button */
     #find-btn {
       width: 100%;
-      margin: 14px 0 0;
-      padding: 14px;
-      background: var(--find-btn-bg);
+      margin: 16px 0 0;
+      padding: 15px;
+      background: var(--find-btn-grad);
       color: #fff;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: 0.3px;
       cursor: pointer;
-      transition: background .15s;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .25s, background .25s;
+      box-shadow: 0 4px 14px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.12);
       touch-action: manipulation;
     }
-    #find-btn:hover    { background: var(--find-btn-hover); }
-    #find-btn:disabled { background: #bca898; cursor: not-allowed; }
+    #find-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -80%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.22) 50%, transparent 100%);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
+    #find-btn:hover {
+      background: var(--find-btn-hgrad);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px rgba(0,0,0,.22), 0 0 0 3px var(--glow), inset 0 1px 0 rgba(255,255,255,.15);
+    }
+    #find-btn:hover::before { left: 140%; }
+    #find-btn:active   { transform: translateY(0); }
+    #find-btn:disabled { background: #bca898; cursor: not-allowed; box-shadow: none; transform: none; }
+    #find-btn:disabled::before { display: none; }
 
     /* Status */
     #status { font-size: 13px; color: var(--text-muted); margin-top: 10px; min-height: 20px; }
@@ -271,9 +415,11 @@
 
     /* ── Filter section ── */
     #filter-section {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border-light);
+      margin-top: 16px;
+      padding: 14px 14px 12px;
+      background: var(--accent-tint);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
       display: none;
     }
     .filter-header {
@@ -336,37 +482,80 @@
     #results-section { margin-top: 16px; }
 
     .cafe-card {
-      background: var(--page-bg);
+      background: #fff;
       border: 1px solid var(--border-light);
-      border-radius: 10px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
       cursor: pointer;
-      transition: border-color .15s, box-shadow .15s, background 0.3s;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: transform .2s cubic-bezier(.4,0,.2,1), box-shadow .25s, border-color .2s, background 0.3s;
       touch-action: manipulation;
     }
-    .cafe-card:hover    { border-color: var(--accent); box-shadow: 0 2px 8px rgba(196,132,58,.15); }
-    .cafe-card.selected { border-color: var(--accent); background: var(--accent-tint); }
+    .cafe-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent-grad);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .cafe-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+    .cafe-card:hover::before { opacity: 1; }
+    .cafe-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-tint);
+      box-shadow: var(--shadow-hover), 0 0 0 2px var(--ring);
+    }
+    .cafe-card.selected::before { opacity: 1; }
 
-    .cafe-rank   { display: inline-block; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; border-radius: 4px; padding: 1px 6px; margin-right: 6px; transition: background 0.3s; }
-    .cafe-name   { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
-    .cafe-meta   { font-size: 12px; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap; }
-    .cafe-rating { color: #d4920a; }
-    .cafe-open   { color: #5aad7a; font-weight: 600; }
-    .cafe-closed { color: #e05a5a; font-weight: 600; }
+    .cafe-rank   {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      height: 22px;
+      background: var(--accent-grad);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 0 7px;
+      margin-right: 7px;
+      box-shadow: 0 2px 6px var(--glow);
+      transition: background 0.3s;
+    }
+    .cafe-name   { font-weight: 800; font-size: 14.5px; margin-bottom: 5px; letter-spacing: -0.2px; }
+    .cafe-meta   { font-size: 12px; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .cafe-rating { color: #d4920a; font-weight: 700; }
+    .cafe-open   { color: #5aad7a; font-weight: 700; }
+    .cafe-closed { color: #e05a5a; font-weight: 700; }
 
-    .cafe-actions { margin-top: 8px; display: flex; gap: 8px; }
+    .cafe-actions { margin-top: 10px; display: flex; gap: 8px; }
     .cafe-actions a {
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--accent);
       text-decoration: none;
       background: var(--accent-soft);
-      padding: 5px 10px;
-      border-radius: 5px;
-      transition: background 0.2s;
+      padding: 6px 12px;
+      border-radius: 999px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
     }
-    .cafe-actions a:hover { background: var(--accent-hover); }
+    .cafe-actions a:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px var(--glow);
+    }
 
     /* Map */
     #map { width: 100%; height: 100%; }
@@ -377,12 +566,24 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: #f0ebe5;
+      background:
+        radial-gradient(circle at 30% 30%, var(--accent-tint) 0%, transparent 55%),
+        radial-gradient(circle at 70% 80%, var(--accent-soft) 0%, transparent 60%),
+        #f0ebe5;
       color: var(--text-muted);
-      gap: 12px;
+      gap: 14px;
       font-size: 15px;
+      font-weight: 500;
     }
-    .map-placeholder .icon { font-size: 48px; }
+    .map-placeholder .icon {
+      font-size: 56px;
+      filter: drop-shadow(0 4px 12px var(--glow));
+      animation: floatIcon 3.5s ease-in-out infinite;
+    }
+    @keyframes floatIcon {
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-8px); }
+    }
 
     /* Autocomplete dropdown */
     .autocomplete-dropdown {
@@ -490,8 +691,8 @@
       border-bottom: 1px solid #f0e8de;
       flex-shrink: 0;
     }
-    #detail-name { font-size: 17px; font-weight: 800; color: #2c1a0e; margin-bottom: 5px; line-height: 1.2; }
-    #detail-meta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #8c6a4a; flex-wrap: wrap; margin-bottom: 8px; }
+    #detail-name { font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 5px; line-height: 1.2; letter-spacing: -0.3px; }
+    #detail-meta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-muted); flex-wrap: wrap; margin-bottom: 8px; }
     #detail-meta .stars  { color: #d4920a; }
     #detail-meta .open   { color: #5aad7a; font-weight: 600; }
     #detail-meta .closed { color: #e05a5a; font-weight: 600; }
@@ -501,38 +702,45 @@
     .detail-action-btn {
       flex: 1;
       min-width: 0;
-      padding: 8px 6px;
-      border: 1.5px solid #e0d0c0;
-      border-radius: 8px;
-      background: #faf7f4;
-      color: #2c1a0e;
+      padding: 10px 6px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       text-align: center;
       text-decoration: none;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
-      transition: background .15s;
+      gap: 4px;
+      transition: all .2s;
     }
-    .detail-action-btn:hover { background: #fff8ee; border-color: var(--accent); }
-    .detail-action-btn .icon { font-size: 16px; }
+    .detail-action-btn:hover {
+      background: var(--accent-tint);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px var(--glow);
+    }
+    .detail-action-btn .icon { font-size: 18px; }
 
-    .detail-tabs { display: flex; border-bottom: 1px solid #f0e8de; flex-shrink: 0; }
+    .detail-tabs { display: flex; border-bottom: 1px solid var(--border-light); flex-shrink: 0; background: #fff; }
     .detail-tab {
       flex: 1;
-      padding: 11px 4px;
+      padding: 12px 4px;
       border: none;
       background: none;
       font-size: 12px;
-      font-weight: 700;
-      color: #8c6a4a;
+      font-weight: 800;
+      color: var(--text-muted);
       cursor: pointer;
       border-bottom: 2.5px solid transparent;
-      transition: all .15s;
+      transition: all .2s;
       touch-action: manipulation;
+      letter-spacing: 0.3px;
     }
     .detail-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
     .detail-tab:hover  { color: var(--accent); }
@@ -574,7 +782,7 @@
     #detail-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; color: #8c6a4a; gap: 12px; font-size: 14px; }
 
     /* ══════════════════════════════════════════════════
-       BEER FILL ANIMATION OVERLAY
+       BEER FILL ANIMATION OVERLAY — realistic pour
     ══════════════════════════════════════════════════ */
     #beer-overlay {
       position: fixed;
@@ -586,88 +794,174 @@
     }
     #beer-overlay.active { display: block; }
     #beer-overlay.fading {
-      animation: overlayFadeOut 0.55s ease-in forwards;
+      animation: overlayFadeOut 0.6s ease-in forwards;
     }
     @keyframes overlayFadeOut {
       to { opacity: 0; }
     }
 
-    /* Amber liquid rising from bottom */
+    /* Container that holds liquid + foam and rises together.
+       Foam sits at top of this container so it rises WITH the beer. */
+    .beer-content {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 100vh;
+      height: 100dvh;
+      transform: translateY(100%);
+      animation: beerRise 3.6s cubic-bezier(0.28, 0.62, 0.42, 1) forwards;
+      will-change: transform;
+    }
+    @keyframes beerRise {
+      0%   { transform: translateY(100%); }
+      70%  { transform: translateY(2%);   }
+      85%  { transform: translateY(-0.6%); } /* small overshoot — sloshing */
+      100% { transform: translateY(0);    }
+    }
+
+    /* Amber liquid — rich beer gradient with depth */
     .beer-liquid {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(140, 70, 0, 0.84)   0%,
-        rgba(200, 120, 10, 0.80) 30%,
-        rgba(230, 160, 20, 0.76) 65%,
-        rgba(245, 195, 50, 0.72) 100%
-      );
-      transform: translateY(100%);
-      animation: beerRise 1.55s cubic-bezier(0.15, 0.75, 0.35, 1) forwards;
-    }
-    @keyframes beerRise {
-      to { transform: translateY(0); }
+      top: 70px; /* leave room for foam above */
+      background:
+        /* subtle vertical highlight streak (light refraction) */
+        linear-gradient(90deg,
+          transparent 0%,
+          rgba(255, 235, 150, 0.10) 42%,
+          rgba(255, 245, 180, 0.16) 50%,
+          rgba(255, 235, 150, 0.10) 58%,
+          transparent 100%),
+        /* main beer body — darker at bottom, golden at top */
+        linear-gradient(to top,
+          rgba(110, 55, 0, 0.94)   0%,
+          rgba(165, 90, 5, 0.90)  22%,
+          rgba(210, 135, 15, 0.86) 48%,
+          rgba(238, 175, 35, 0.82) 75%,
+          rgba(250, 205, 65, 0.80) 100%);
+      overflow: hidden;
     }
 
-    /* Rolling wave at the top edge of the liquid */
-    .beer-liquid::before,
+    /* Subtle swirling highlight inside the beer */
+    .beer-liquid::before {
+      content: '';
+      position: absolute;
+      inset: -20%;
+      background: radial-gradient(ellipse 55% 40% at 30% 85%,
+                    rgba(255, 235, 140, 0.22) 0%,
+                    transparent 60%),
+                  radial-gradient(ellipse 45% 35% at 75% 70%,
+                    rgba(255, 220, 110, 0.18) 0%,
+                    transparent 60%);
+      animation: swirl 6s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes swirl {
+      from { transform: translate(-2%, 1%); }
+      to   { transform: translate(3%, -2%); }
+    }
+
+    /* Wobbly wave at the boundary between liquid and foam */
     .beer-liquid::after {
       content: '';
       position: absolute;
-      top: -38px;
-      left: 0;
+      top: -14px;
+      left: -50%;
       width: 200%;
-      height: 46px;
-      border-radius: 44%;
-      background: rgba(235, 165, 20, 0.78);
+      height: 28px;
+      background: radial-gradient(ellipse 60px 14px at 10% 50%, rgba(250,210,80,0.95) 55%, transparent 60%),
+                  radial-gradient(ellipse 70px 16px at 25% 50%, rgba(250,210,80,0.95) 55%, transparent 60%),
+                  radial-gradient(ellipse 55px 12px at 40% 50%, rgba(250,210,80,0.95) 55%, transparent 60%),
+                  radial-gradient(ellipse 65px 14px at 55% 50%, rgba(250,210,80,0.95) 55%, transparent 60%),
+                  radial-gradient(ellipse 60px 15px at 70% 50%, rgba(250,210,80,0.95) 55%, transparent 60%),
+                  radial-gradient(ellipse 70px 13px at 85% 50%, rgba(250,210,80,0.95) 55%, transparent 60%);
+      animation: waveRoll 3.4s linear infinite;
     }
-    .beer-liquid::before { animation: waveRoll 1.8s linear infinite; }
-    .beer-liquid::after  { animation: waveRoll 2.7s linear infinite reverse; opacity: 0.65; top: -28px; }
     @keyframes waveRoll {
       from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      to   { transform: translateX(-25%); }
     }
 
-    /* Foam layer at very top of screen — appears once beer fills */
+    /* Foam — sits at top of the rising container so it rises WITH the beer */
     .beer-foam {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 110px;
-      opacity: 0;
-      animation: foamAppear 0.45s ease-out 1.4s forwards;
-      /* Overlapping white bubble circles via radial-gradient */
+      height: 95px;
       background:
-        radial-gradient(circle 38px at  6% 65%, rgba(255,255,255,0.92) 68%, transparent 100%),
-        radial-gradient(circle 30px at 14% 28%, rgba(255,255,255,0.88) 68%, transparent 100%),
-        radial-gradient(circle 44px at 23% 72%, rgba(255,255,255,0.90) 68%, transparent 100%),
-        radial-gradient(circle 28px at 32% 22%, rgba(255,255,255,0.86) 68%, transparent 100%),
-        radial-gradient(circle 36px at 41% 68%, rgba(255,255,255,0.89) 68%, transparent 100%),
-        radial-gradient(circle 42px at 50% 30%, rgba(255,255,255,0.91) 68%, transparent 100%),
-        radial-gradient(circle 32px at 59% 70%, rgba(255,255,255,0.87) 68%, transparent 100%),
-        radial-gradient(circle 38px at 68% 25%, rgba(255,255,255,0.90) 68%, transparent 100%),
-        radial-gradient(circle 34px at 77% 65%, rgba(255,255,255,0.88) 68%, transparent 100%),
-        radial-gradient(circle 40px at 86% 32%, rgba(255,255,255,0.91) 68%, transparent 100%),
-        radial-gradient(circle 30px at 94% 70%, rgba(255,255,255,0.86) 68%, transparent 100%),
-        rgba(255, 255, 255, 0.75);
-    }
-    @keyframes foamAppear {
-      to { opacity: 1; }
+        /* top highlights (small bright bubbles) */
+        radial-gradient(circle 10px at  4% 22%, rgba(255,255,255,0.98) 70%, transparent 100%),
+        radial-gradient(circle  8px at 11% 14%, rgba(255,255,255,0.96) 70%, transparent 100%),
+        radial-gradient(circle 12px at 19% 24%, rgba(255,255,255,0.98) 70%, transparent 100%),
+        radial-gradient(circle  9px at 28% 12%, rgba(255,255,255,0.95) 70%, transparent 100%),
+        radial-gradient(circle 11px at 37% 20%, rgba(255,255,255,0.97) 70%, transparent 100%),
+        radial-gradient(circle  8px at 46% 10%, rgba(255,255,255,0.94) 70%, transparent 100%),
+        radial-gradient(circle 13px at 55% 22%, rgba(255,255,255,0.98) 70%, transparent 100%),
+        radial-gradient(circle 10px at 64% 14%, rgba(255,255,255,0.96) 70%, transparent 100%),
+        radial-gradient(circle 11px at 73% 24%, rgba(255,255,255,0.97) 70%, transparent 100%),
+        radial-gradient(circle  9px at 82% 12%, rgba(255,255,255,0.95) 70%, transparent 100%),
+        radial-gradient(circle 12px at 91% 22%, rgba(255,255,255,0.98) 70%, transparent 100%),
+        /* mid-layer medium bubbles */
+        radial-gradient(circle 22px at  8% 50%, rgba(255,255,255,0.94) 68%, transparent 100%),
+        radial-gradient(circle 26px at 22% 46%, rgba(255,255,255,0.95) 68%, transparent 100%),
+        radial-gradient(circle 20px at 34% 54%, rgba(255,255,255,0.93) 68%, transparent 100%),
+        radial-gradient(circle 28px at 48% 48%, rgba(255,255,255,0.95) 68%, transparent 100%),
+        radial-gradient(circle 24px at 60% 52%, rgba(255,255,255,0.94) 68%, transparent 100%),
+        radial-gradient(circle 22px at 72% 46%, rgba(255,255,255,0.93) 68%, transparent 100%),
+        radial-gradient(circle 26px at 85% 52%, rgba(255,255,255,0.95) 68%, transparent 100%),
+        radial-gradient(circle 20px at 96% 48%, rgba(255,255,255,0.92) 68%, transparent 100%),
+        /* bottom large bubbles meeting liquid */
+        radial-gradient(circle 36px at  6% 82%, rgba(255,252,235,0.92) 65%, transparent 100%),
+        radial-gradient(circle 42px at 20% 78%, rgba(255,252,235,0.93) 65%, transparent 100%),
+        radial-gradient(circle 38px at 34% 84%, rgba(255,250,225,0.92) 65%, transparent 100%),
+        radial-gradient(circle 44px at 50% 80%, rgba(255,252,235,0.94) 65%, transparent 100%),
+        radial-gradient(circle 40px at 64% 84%, rgba(255,250,225,0.92) 65%, transparent 100%),
+        radial-gradient(circle 42px at 80% 78%, rgba(255,252,235,0.93) 65%, transparent 100%),
+        radial-gradient(circle 36px at 94% 82%, rgba(255,250,230,0.92) 65%, transparent 100%),
+        /* creamy base */
+        linear-gradient(to bottom,
+          rgba(255,255,255,0.55) 0%,
+          rgba(255,250,230,0.80) 50%,
+          rgba(250,235,190,0.70) 100%);
+      filter: drop-shadow(0 2px 1px rgba(180, 120, 20, 0.25));
     }
 
-    /* Small rising bubbles inside the beer */
+    /* Subtle foam jiggle */
+    .beer-foam::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle 14px at 15% 60%, rgba(255,255,255,0.7) 60%, transparent 100%),
+        radial-gradient(circle 16px at 45% 65%, rgba(255,255,255,0.65) 60%, transparent 100%),
+        radial-gradient(circle 12px at 75% 58%, rgba(255,255,255,0.7) 60%, transparent 100%);
+      animation: foamJiggle 2.2s ease-in-out infinite alternate;
+    }
+    @keyframes foamJiggle {
+      from { transform: translate(-3px, 0) scale(1); opacity: 0.85; }
+      to   { transform: translate(4px, -2px) scale(1.04); opacity: 1; }
+    }
+
+    /* Rising carbonation bubbles inside the beer */
     .beer-bubble {
       position: absolute;
       border-radius: 50%;
-      background: rgba(255, 220, 100, 0.35);
+      background: radial-gradient(circle at 35% 35%,
+                    rgba(255,255,255,0.85) 0%,
+                    rgba(255,235,150,0.45) 45%,
+                    rgba(255,220,100,0.15) 100%);
+      box-shadow: inset 0 0 2px rgba(255,255,255,0.5);
       animation: bubbleRise var(--dur) ease-in var(--delay) infinite;
+      opacity: 0;
     }
     @keyframes bubbleRise {
-      0%   { transform: translateY(0)    scale(1);   opacity: 0.5; }
-      80%  { opacity: 0.4; }
-      100% { transform: translateY(-90vh) scale(1.3); opacity: 0; }
+      0%   { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; }
+      15%  { opacity: 0.8; }
+      50%  { transform: translateY(-40vh) translateX(var(--drift, 6px)) scale(1); opacity: 0.7; }
+      85%  { opacity: 0.5; }
+      100% { transform: translateY(-92vh) translateX(calc(var(--drift, 6px) * -1)) scale(1.2); opacity: 0; }
     }
 
     /* "Let's get pissed" message */
@@ -679,16 +973,369 @@
       font-size: clamp(22px, 7vw, 52px);
       font-weight: 900;
       color: #fff;
-      text-shadow: 0 3px 24px rgba(80, 30, 0, 0.6), 0 1px 4px rgba(0,0,0,0.4);
+      text-shadow: 0 3px 24px rgba(80, 30, 0, 0.7), 0 1px 4px rgba(0,0,0,0.4);
       opacity: 0;
-      animation: msgPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.85s forwards;
+      animation: msgPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.9s forwards;
       white-space: nowrap;
       letter-spacing: -0.5px;
       z-index: 10;
     }
     @keyframes msgPop {
-      0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
-      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(-4deg); }
+      60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.08) rotate(2deg); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); }
+    }
+
+    /* Map legend for pub-golf transit/walking leg colours */
+    #golf-map-legend {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      z-index: 40;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 8px 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      max-width: 220px;
+      line-height: 1.5;
+      pointer-events: auto;
+    }
+    #golf-map-legend .legend-title {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    #golf-map-legend .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 2px 0;
+    }
+    #golf-map-legend .legend-swatch {
+      display: inline-block;
+      width: 22px;
+      height: 4px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    #golf-map-legend .legend-swatch.dashed {
+      background-image: linear-gradient(to right, currentColor 60%, transparent 40%);
+      background-size: 6px 4px;
+      background-color: transparent !important;
+      height: 4px;
+    }
+    @media (max-width: 768px) {
+      #golf-map-legend {
+        bottom: 8px; left: 8px;
+        font-size: 10px;
+        padding: 6px 8px;
+        max-width: 180px;
+      }
+    }
+
+    /* ── Coffee espresso overlay ── */
+    #coffee-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      overflow: hidden;
+      pointer-events: none;
+      display: none;
+    }
+    #coffee-overlay.active { display: block; }
+    #coffee-overlay.fading {
+      animation: overlayFadeOut 0.6s ease-in forwards;
+    }
+
+    /* A soft warm glow behind everything, like a cafe ambience */
+    .coffee-ambience {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 40%,
+                    rgba(80, 40, 10, 0.18) 0%,
+                    rgba(40, 20, 5, 0.08) 50%,
+                    transparent 80%);
+      opacity: 0;
+      animation: ambienceFade 0.7s ease-out 0.1s forwards;
+    }
+    @keyframes ambienceFade {
+      to { opacity: 1; }
+    }
+
+    /* The espresso machine spout at the top centre */
+    .coffee-spout {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 90px;
+      background:
+        /* spout tip */
+        radial-gradient(ellipse 18px 10px at 50% 90%, #1a1a1a 70%, transparent 75%),
+        /* machine body */
+        linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 60%, #3a3a3a 100%);
+      clip-path: polygon(15% 0, 85% 0, 85% 55%, 62% 80%, 62% 100%, 38% 100%, 38% 80%, 15% 55%);
+      box-shadow:
+        inset 0 -4px 8px rgba(0,0,0,0.6),
+        inset 0 2px 2px rgba(255,255,255,0.12),
+        0 2px 8px rgba(0,0,0,0.3);
+      transform-origin: top center;
+      animation: spoutDrop 0.5s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+      opacity: 0;
+    }
+    @keyframes spoutDrop {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(-100%); }
+      100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    /* Chrome portafilter highlight */
+    .coffee-spout::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 18%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 6px;
+      background: linear-gradient(90deg, #4a4a4a, #8a8a8a, #4a4a4a);
+      border-radius: 2px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    }
+
+    /* The espresso stream — thin, falling from the spout */
+    .coffee-stream {
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 0;
+      background: linear-gradient(180deg,
+                    rgba(70, 35, 10, 0.0)  0%,
+                    rgba(70, 35, 10, 0.85) 8%,
+                    rgba(95, 50, 18, 0.95) 40%,
+                    rgba(60, 30, 8, 0.98)  100%);
+      border-radius: 4px;
+      box-shadow:
+        0 0 8px rgba(80, 40, 15, 0.5),
+        inset 0 0 2px rgba(255, 220, 170, 0.25);
+      animation: streamGrow 1.1s cubic-bezier(0.3, 0.1, 0.3, 1) 0.45s forwards;
+      opacity: 0;
+    }
+    @keyframes streamGrow {
+      0%   { height: 0; opacity: 0; }
+      10%  { opacity: 1; }
+      100% { height: calc(100vh - 80px); opacity: 1; }
+    }
+
+    /* Tiny splatter droplets near where the stream hits the rising coffee */
+    .coffee-splatter {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      opacity: 0;
+      animation: splatterShow 2.4s ease-out 0.9s forwards;
+    }
+    @keyframes splatterShow {
+      0%   { opacity: 0; }
+      10%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .coffee-droplet {
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%,
+                    rgba(140, 85, 35, 0.9) 0%,
+                    rgba(60, 30, 8, 0.8) 60%,
+                    rgba(40, 20, 5, 0.3) 100%);
+      animation: dropletBounce var(--ddur, 1.4s) ease-out var(--ddelay, 0s) infinite;
+      opacity: 0;
+    }
+    @keyframes dropletBounce {
+      0%   { transform: translate(0, 0) scale(0.5); opacity: 0; }
+      10%  { opacity: 1; }
+      100% { transform: translate(var(--dx, 30px), var(--dy, 20px)) scale(0.3); opacity: 0; }
+    }
+
+    /* The rising coffee liquid that fills the screen */
+    .coffee-content {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 100vh;
+      height: 100dvh;
+      transform: translateY(100%);
+      animation: coffeeRise 3.2s cubic-bezier(0.3, 0.55, 0.4, 1) 0.8s forwards;
+      will-change: transform;
+    }
+    @keyframes coffeeRise {
+      0%   { transform: translateY(100%); }
+      72%  { transform: translateY(3%); }
+      86%  { transform: translateY(-0.5%); } /* slight overshoot */
+      100% { transform: translateY(0); }
+    }
+
+    /* Translucent espresso liquid — deep warm browns */
+    .coffee-liquid {
+      position: absolute;
+      inset: 0;
+      top: 40px; /* leave room for crema above */
+      background:
+        /* sheen highlight */
+        linear-gradient(90deg,
+          transparent 0%,
+          rgba(180, 120, 60, 0.10) 45%,
+          rgba(210, 150, 90, 0.14) 50%,
+          rgba(180, 120, 60, 0.10) 55%,
+          transparent 100%),
+        /* main espresso gradient */
+        linear-gradient(to top,
+          rgba(28, 12, 3, 0.92)   0%,
+          rgba(55, 25, 6, 0.88)  30%,
+          rgba(85, 45, 15, 0.84) 60%,
+          rgba(115, 65, 25, 0.80) 100%);
+      overflow: hidden;
+    }
+
+    /* Swirling crema reflections */
+    .coffee-liquid::before {
+      content: '';
+      position: absolute;
+      inset: -20%;
+      background: radial-gradient(ellipse 50% 40% at 35% 80%,
+                    rgba(210, 150, 85, 0.18) 0%,
+                    transparent 60%),
+                  radial-gradient(ellipse 45% 35% at 70% 65%,
+                    rgba(185, 120, 60, 0.15) 0%,
+                    transparent 60%);
+      animation: coffeeSwirl 5.5s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes coffeeSwirl {
+      from { transform: translate(-2%, 1%); }
+      to   { transform: translate(3%, -2%); }
+    }
+
+    /* Rolling crema wave at the top of the liquid */
+    .coffee-liquid::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -50%;
+      width: 200%;
+      height: 22px;
+      background: radial-gradient(ellipse 60px 12px at 10% 50%, rgba(180, 115, 55, 0.9) 55%, transparent 60%),
+                  radial-gradient(ellipse 70px 14px at 25% 50%, rgba(195, 130, 65, 0.88) 55%, transparent 60%),
+                  radial-gradient(ellipse 55px 10px at 40% 50%, rgba(170, 105, 50, 0.9) 55%, transparent 60%),
+                  radial-gradient(ellipse 65px 12px at 55% 50%, rgba(190, 125, 60, 0.88) 55%, transparent 60%),
+                  radial-gradient(ellipse 60px 13px at 70% 50%, rgba(180, 115, 55, 0.9) 55%, transparent 60%),
+                  radial-gradient(ellipse 70px 11px at 85% 50%, rgba(195, 130, 65, 0.88) 55%, transparent 60%);
+      animation: coffeeWave 3.8s linear infinite;
+    }
+    @keyframes coffeeWave {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-25%); }
+    }
+
+    /* Crema layer — creamy hazelnut foam on top of the espresso */
+    .coffee-crema {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background:
+        /* highlight micro-bubbles */
+        radial-gradient(circle  5px at  6% 35%, rgba(255,230,190,0.92) 70%, transparent 100%),
+        radial-gradient(circle  4px at 14% 22%, rgba(255,225,185,0.88) 70%, transparent 100%),
+        radial-gradient(circle  6px at 22% 40%, rgba(255,230,190,0.94) 70%, transparent 100%),
+        radial-gradient(circle  4px at 31% 20%, rgba(255,225,185,0.85) 70%, transparent 100%),
+        radial-gradient(circle  5px at 40% 32%, rgba(255,228,188,0.9) 70%, transparent 100%),
+        radial-gradient(circle  4px at 49% 18%, rgba(255,225,185,0.85) 70%, transparent 100%),
+        radial-gradient(circle  6px at 58% 38%, rgba(255,230,190,0.92) 70%, transparent 100%),
+        radial-gradient(circle  4px at 67% 22%, rgba(255,225,185,0.88) 70%, transparent 100%),
+        radial-gradient(circle  5px at 76% 34%, rgba(255,228,188,0.9) 70%, transparent 100%),
+        radial-gradient(circle  4px at 85% 20%, rgba(255,225,185,0.85) 70%, transparent 100%),
+        radial-gradient(circle  5px at 94% 36%, rgba(255,230,190,0.92) 70%, transparent 100%),
+        /* mid crema blobs */
+        radial-gradient(circle 14px at 10% 65%, rgba(220,170,110,0.92) 65%, transparent 100%),
+        radial-gradient(circle 18px at 28% 60%, rgba(225,175,115,0.94) 65%, transparent 100%),
+        radial-gradient(circle 16px at 46% 68%, rgba(215,165,105,0.9) 65%, transparent 100%),
+        radial-gradient(circle 18px at 62% 62%, rgba(225,175,115,0.94) 65%, transparent 100%),
+        radial-gradient(circle 16px at 80% 66%, rgba(218,168,108,0.92) 65%, transparent 100%),
+        radial-gradient(circle 14px at 94% 62%, rgba(222,172,112,0.9) 65%, transparent 100%),
+        /* base creamy gradient */
+        linear-gradient(to bottom,
+          rgba(225, 175, 115, 0.72) 0%,
+          rgba(205, 150, 90,  0.85) 50%,
+          rgba(175, 115, 60,  0.82) 100%);
+      filter: drop-shadow(0 2px 1px rgba(60, 30, 8, 0.35));
+    }
+
+    /* Steam wisps rising from the crema */
+    .coffee-steam {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px;
+      height: 60px;
+      pointer-events: none;
+    }
+    .coffee-steam span {
+      position: absolute;
+      bottom: 0;
+      width: 18px;
+      height: 40px;
+      background: radial-gradient(ellipse 9px 20px at 50% 50%,
+                    rgba(255,255,255,0.55) 20%,
+                    rgba(255,255,255,0.15) 70%,
+                    transparent 100%);
+      border-radius: 50%;
+      animation: steamRise var(--sdur, 2.4s) ease-out var(--sdelay, 0s) infinite;
+      opacity: 0;
+      filter: blur(3px);
+    }
+    @keyframes steamRise {
+      0%   { transform: translate(0, 0) scale(0.8); opacity: 0; }
+      20%  { opacity: 0.6; }
+      60%  { opacity: 0.4; }
+      100% { transform: translate(var(--sdx, 8px), -60px) scale(1.6); opacity: 0; }
+    }
+
+    /* "Lets get caffeinated" message */
+    .coffee-msg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(22px, 7vw, 52px);
+      font-weight: 900;
+      color: #fff8ea;
+      text-shadow:
+        0 3px 24px rgba(30, 15, 5, 0.85),
+        0 1px 4px rgba(0, 0, 0, 0.55),
+        0 0 16px rgba(210, 150, 85, 0.35);
+      opacity: 0;
+      animation: coffeeMsgPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 2.3s forwards;
+      white-space: nowrap;
+      letter-spacing: -0.5px;
+      z-index: 10;
+    }
+    @keyframes coffeeMsgPop {
+      0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(-3deg); }
+      60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.08) rotate(2deg); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); }
     }
 
     /* ── Mobile responsive ── */
@@ -760,16 +1407,300 @@
       .friend-row { gap: 5px; }
       .name-input { width: 46px; font-size: 15px; }
     }
+
+    /* ── Pub Golf mode ── */
+    #mode-toggle {
+      display: none;
+      margin-bottom: 16px;
+      background: rgba(0,0,0,.04);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 2px;
+    }
+    body.beer-theme #mode-toggle { display: flex; }
+    .mode-btn {
+      flex: 1;
+      padding: 9px 12px;
+      border: none;
+      background: transparent;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: background .2s, color .2s, box-shadow .2s;
+    }
+    .mode-btn.active {
+      background: #fff;
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 0 0 1px var(--border-light);
+    }
+
+    #golf-panel { display: none; }
+    body.golf-mode #standard-panel { display: none; }
+    body.golf-mode #golf-panel     { display: block; }
+
+    .golf-input, .golf-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      background: #fff;
+      color: var(--text);
+      margin-bottom: 10px;
+      font-family: inherit;
+    }
+    .golf-input:focus, .golf-select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--ring);
+    }
+    .golf-input.resolved { border-color: var(--accent); background: var(--accent-tint); }
+    .golf-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .golf-row > * { flex: 1; margin-bottom: 0; }
+    .golf-row label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-mid);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .golf-field { flex: 1; }
+
+    .theme-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .theme-chip {
+      padding: 7px 12px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none;
+    }
+    .theme-chip.active {
+      background: var(--accent-grad);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 2px 8px var(--glow);
+    }
+
+    #golf-build-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--find-btn-grad);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+      transition: transform .2s, box-shadow .2s;
+    }
+    #golf-build-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,0,.22); }
+    #golf-build-btn:disabled { background: #bca898; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    #golf-status {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      min-height: 18px;
+    }
+    #golf-status.error { color: #c04040; }
+    #golf-status.warn  { color: #b17a00; }
+
+    #golf-results { margin-top: 18px; }
+
+    .hole-card {
+      background: #fff;
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+    .hole-card .hole-num {
+      position: absolute;
+      top: -10px; left: 14px;
+      background: var(--accent-grad);
+      color: #fff;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px var(--glow);
+    }
+    .hole-card .hole-venue {
+      font-weight: 800;
+      font-size: 15px;
+      margin-top: 4px;
+      margin-bottom: 2px;
+    }
+    .hole-card .hole-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .hole-card .hole-theme {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--accent-tint);
+      color: var(--accent-2);
+      margin-right: 6px;
+    }
+    .hole-card .leg-info {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-light);
+    }
+    .hole-drink-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      align-items: center;
+    }
+    .hole-drink-select {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      background: #fff;
+      color: var(--text);
+    }
+    .hole-score {
+      width: 52px;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      text-align: center;
+      font-weight: 700;
+    }
+    .hole-score-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #route-summary {
+      background: var(--accent-tint);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+    #route-summary strong { color: var(--text); }
+
+    #export-btn {
+      width: 100%;
+      padding: 11px;
+      background: #fff;
+      color: var(--text);
+      border: 1.5px solid var(--accent);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: background .2s;
+    }
+    #export-btn:hover { background: var(--accent-tint); }
+
+    .total-score {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      margin: 14px 0 6px;
+      padding: 10px;
+      background: var(--accent-tint);
+      border-radius: 10px;
+    }
+    .total-score span { color: var(--accent-2); font-size: 18px; }
+
+    /* Source toggle (Address / Friends' midpoint) inside golf panel */
+    .source-toggle {
+      display: flex;
+      gap: 2px;
+      background: rgba(0,0,0,.04);
+      border-radius: 999px;
+      padding: 3px;
+      margin-bottom: 14px;
+    }
+    .source-btn, .end-btn {
+      flex: 1;
+      padding: 8px 10px;
+      border: none;
+      background: transparent;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: background .2s, color .2s, box-shadow .2s;
+    }
+    .source-btn.active, .end-btn.active {
+      background: #fff;
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 0 0 1px var(--border-light);
+    }
+
+    /* Shared friends section visibility */
+    body.golf-mode #friends-section { display: none; }
+    body.golf-mode.golf-source-midpoint #friends-section { display: block; margin-bottom: 14px; }
+    body.golf-mode.golf-source-midpoint #golf-start-section { display: none; }
+    body.golf-mode.golf-source-address #friends-section { display: none; }
   </style>
 </head>
 <body>
 
 <!-- ── Beer fill overlay ── -->
 <div id="beer-overlay">
-  <div class="beer-liquid"></div>
-  <div class="beer-foam"></div>
-  <!-- Rising bubbles (positioned/sized via JS) -->
+  <div class="beer-content">
+    <div class="beer-foam"></div>
+    <div class="beer-liquid"><!-- Rising bubbles injected via JS --></div>
+  </div>
   <div class="beer-msg">🍺 Let's get pissed!</div>
+</div>
+
+<!-- ── Coffee espresso overlay ── -->
+<div id="coffee-overlay">
+  <div class="coffee-ambience"></div>
+  <div class="coffee-spout"></div>
+  <div class="coffee-stream"></div>
+  <div class="coffee-splatter"><!-- Droplets injected via JS --></div>
+  <div class="coffee-content">
+    <div class="coffee-crema">
+      <div class="coffee-steam"><!-- Steam wisps injected via JS --></div>
+    </div>
+    <div class="coffee-liquid"></div>
+  </div>
+  <div class="coffee-msg">☕ Let's get caffeinated!</div>
 </div>
 
 <header>
@@ -786,9 +1717,18 @@
   <div class="sidebar">
     <div class="sidebar-scroll">
 
-      <div class="section-title">Friends' Locations</div>
-      <div id="friends-list"></div>
-      <button id="add-friend-btn">+ Add another location</button>
+      <div id="mode-toggle">
+        <button class="mode-btn active" data-mode="midpoint">🍺 Midpoint</button>
+        <button class="mode-btn"        data-mode="golf">🏌️ Pub Golf</button>
+      </div>
+
+      <div id="friends-section">
+        <div class="section-title">Friends' Locations</div>
+        <div id="friends-list"></div>
+        <button id="add-friend-btn">+ Add another location</button>
+      </div>
+
+      <div id="standard-panel">
 
       <div class="section-title" style="margin-top:18px">Triangulate by</div>
       <div class="tri-toggle">
@@ -858,6 +1798,54 @@
 
       <div id="results-section"></div>
 
+      </div><!-- /#standard-panel -->
+
+      <!-- ── Pub Golf panel ── -->
+      <div id="golf-panel">
+        <div class="section-title">Start From</div>
+        <div class="source-toggle">
+          <button class="source-btn active" data-source="address">📍 Address</button>
+          <button class="source-btn"        data-source="midpoint">👥 Friends' Midpoint</button>
+        </div>
+
+        <div id="golf-start-section">
+          <input id="golf-start" type="text" class="golf-input" placeholder="Where are you starting from?" autocomplete="off" />
+        </div>
+
+        <div class="section-title">End At</div>
+        <div class="source-toggle">
+          <button class="end-btn active" data-end="last">🏁 Last Hole</button>
+          <button class="end-btn"        data-end="start">↩️ Start</button>
+          <button class="end-btn"        data-end="custom">📍 Custom</button>
+        </div>
+        <div id="golf-end-section" style="display:none">
+          <input id="golf-end" type="text" class="golf-input" placeholder="Where are you finishing?" autocomplete="off" />
+        </div>
+
+        <div class="golf-row">
+          <div class="golf-field">
+            <label for="golf-holes">Holes</label>
+            <input id="golf-holes" type="number" class="golf-input" value="9" min="2" max="18" />
+          </div>
+          <div class="golf-field">
+            <label for="golf-radius">Radius (m)</label>
+            <input id="golf-radius" type="number" class="golf-input" value="1500" min="300" max="5000" step="100" />
+          </div>
+          <div class="golf-field">
+            <label for="golf-walk-cap" title="Total travel time cap across all legs. Legs can use walking or public transport — whichever is faster.">Travel cap (min)</label>
+            <input id="golf-walk-cap" type="number" class="golf-input" value="90" min="15" max="240" step="5" />
+          </div>
+        </div>
+
+        <div class="section-title">Hole Themes</div>
+        <div id="theme-chips" class="theme-chips"></div>
+
+        <button id="golf-build-btn" disabled>🏌️ Build Route</button>
+        <div id="golf-status"></div>
+
+        <div id="golf-results"></div>
+      </div>
+
     </div>
   </div>
 
@@ -868,6 +1856,7 @@
       <span>Loading map…</span>
     </div>
     <div id="map" style="display:none;"></div>
+    <div id="golf-map-legend" style="display:none;"></div>
 
     <!-- Place detail panel -->
     <div id="place-detail">
@@ -928,14 +1917,36 @@ const THEMES = {
     noPhoto:     '🍺',
     venueEmoji:  '🍺',
     searches: [
-      { type: 'bar' },
-      { keyword: 'pub' },
-      { keyword: 'bistro' },
-      { keyword: 'RSL club' },
-      { keyword: 'tavern' },
+      { keyword: 'pub',         priority: 0 },
+      { type: 'bar',            priority: 1 },
+      { keyword: 'tavern',      priority: 2 },
+      { keyword: 'RSL club',    priority: 3 },
+      { keyword: 'bistro',      priority: 4 },
+      { type: 'restaurant',     priority: 4 },
+      { keyword: 'bottle shop', priority: 4 },
     ],
     statusSearch: 'Searching for pubs and bars…',
     noResults:    'No pubs found within the radius. Try increasing it.',
+    typeFilter(types) {
+      const t = new Set(types || []);
+      if (t.has('cafe') || t.has('coffee_shop')) return false;
+      if (t.has('restaurant') && !t.has('bar') && !t.has('night_club') && !t.has('liquor_store')) return false;
+      return true;
+    },
+    // Classify by actual venue data, not which search found it.
+    // Tier 0 = best (pure pub/hotel/RSL), 4 = lowest (bistro/restaurant/bottle shop).
+    classifyTier(place) {
+      const types = new Set(place.types || []);
+      const name  = (place.name || '').toLowerCase();
+      // Australian "hotel" almost always means a pub
+      if (/\b(pub|hotel|tavern|inn|alehouse|taproom|brewpub|brewery)\b/.test(name)) return 0;
+      if (/\brsl\b|returned\s+services/.test(name))                                  return 0;
+      if (types.has('bar') || types.has('night_club'))                               return 1;
+      if (/\bbar\b/.test(name))                                                      return 1;
+      if (/\btavern\b/.test(name))                                                   return 2;
+      if (types.has('liquor_store') || /bottle[\s-]?shop/.test(name))                return 4;
+      return 4; // bistro / restaurant / anything else that passed typeFilter
+    },
   },
 };
 
@@ -1029,48 +2040,36 @@ function applyTheme(newTheme) {
 
 function triggerBeerAnimation() {
   const overlay = document.getElementById('beer-overlay');
+  const liquid  = overlay.querySelector('.beer-liquid');
 
-  // Inject rising bubble elements each time (so animation restarts cleanly)
-  const oldBubbles = overlay.querySelectorAll('.beer-bubble');
-  oldBubbles.forEach(b => b.remove());
+  // Clear any previous bubbles
+  liquid.querySelectorAll('.beer-bubble').forEach(b => b.remove());
 
-  const bubbleData = [
-    { size: 8,  left: '12%', bottom: '5%',  dur: '2.2s', delay: '0.3s'  },
-    { size: 6,  left: '24%', bottom: '8%',  dur: '2.8s', delay: '0.6s'  },
-    { size: 10, left: '35%', bottom: '3%',  dur: '2.0s', delay: '0.2s'  },
-    { size: 5,  left: '47%', bottom: '10%', dur: '3.0s', delay: '0.8s'  },
-    { size: 8,  left: '58%', bottom: '6%',  dur: '2.4s', delay: '0.4s'  },
-    { size: 12, left: '68%', bottom: '2%',  dur: '2.6s', delay: '0.1s'  },
-    { size: 7,  left: '78%', bottom: '9%',  dur: '2.1s', delay: '0.7s'  },
-    { size: 9,  left: '88%', bottom: '4%',  dur: '2.9s', delay: '0.5s'  },
-    { size: 6,  left: '20%', bottom: '20%', dur: '1.8s', delay: '1.0s'  },
-    { size: 11, left: '55%', bottom: '25%', dur: '2.3s', delay: '0.9s'  },
-    { size: 7,  left: '72%', bottom: '18%', dur: '2.7s', delay: '0.3s'  },
-    { size: 5,  left: '40%', bottom: '30%', dur: '2.0s', delay: '1.1s'  },
-    { size: 8,  left: '85%', bottom: '22%', dur: '2.5s', delay: '0.6s'  },
-  ];
-
-  const liquid = overlay.querySelector('.beer-liquid');
-  bubbleData.forEach(b => {
+  // Generate 26 randomized carbonation bubbles
+  const rand = (min, max) => Math.random() * (max - min) + min;
+  for (let i = 0; i < 26; i++) {
     const el = document.createElement('div');
     el.className = 'beer-bubble';
+    const size = rand(3, 12);
     el.style.cssText = `
-      width:${b.size}px; height:${b.size}px;
-      left:${b.left}; bottom:${b.bottom};
-      --dur:${b.dur}; --delay:${b.delay};
+      width:${size}px; height:${size}px;
+      left:${rand(2, 97).toFixed(1)}%;
+      bottom:${rand(0, 35).toFixed(1)}%;
+      --dur:${rand(2.4, 5.8).toFixed(2)}s;
+      --delay:${rand(0, 3.5).toFixed(2)}s;
+      --drift:${(rand(-14, 14)).toFixed(1)}px;
     `;
     liquid.appendChild(el);
-  });
+  }
 
   // Reset animation state
   overlay.classList.remove('fading');
   overlay.style.opacity = '';
 
   // Reset child animations by forcing reflow
-  const liq = overlay.querySelector('.beer-liquid');
-  const foam = overlay.querySelector('.beer-foam');
-  const msg  = overlay.querySelector('.beer-msg');
-  [liq, foam, msg].forEach(el => {
+  const content = overlay.querySelector('.beer-content');
+  const msg     = overlay.querySelector('.beer-msg');
+  [content, msg].forEach(el => {
     el.style.animation = 'none';
     void el.offsetWidth; // reflow
     el.style.animation = '';
@@ -1078,14 +2077,77 @@ function triggerBeerAnimation() {
 
   overlay.classList.add('active');
 
-  // Start fade-out at 2.0s, gone by 2.6s
+  // Total duration ~4.4s (within user's 3-5s window)
+  // Fill + settle takes 3.6s, message shows at 1.9s, fade starts at 3.8s
   setTimeout(() => {
     overlay.classList.add('fading');
     setTimeout(() => {
       overlay.classList.remove('active', 'fading');
       overlay.style.opacity = '';
-    }, 580);
-  }, 2000);
+    }, 620);
+  }, 3800);
+}
+
+function triggerCoffeeAnimation() {
+  const overlay = document.getElementById('coffee-overlay');
+  const splatter = overlay.querySelector('.coffee-splatter');
+  const steam    = overlay.querySelector('.coffee-steam');
+
+  splatter.querySelectorAll('.coffee-droplet').forEach(d => d.remove());
+  steam.querySelectorAll('span').forEach(s => s.remove());
+
+  const rand = (min, max) => Math.random() * (max - min) + min;
+
+  // Splatter droplets spraying sideways from the stream
+  for (let i = 0; i < 14; i++) {
+    const d = document.createElement('div');
+    d.className = 'coffee-droplet';
+    const side = Math.random() < 0.5 ? -1 : 1;
+    d.style.cssText = `
+      left: calc(50% - 3px);
+      top: ${rand(45, 75).toFixed(1)}%;
+      --dx: ${(rand(25, 70) * side).toFixed(1)}px;
+      --dy: ${rand(15, 40).toFixed(1)}px;
+      --ddur: ${rand(0.9, 1.6).toFixed(2)}s;
+      --ddelay: ${rand(0, 1.2).toFixed(2)}s;
+    `;
+    splatter.appendChild(d);
+  }
+
+  // Steam wisps from the crema
+  for (let i = 0; i < 5; i++) {
+    const s = document.createElement('span');
+    s.style.cssText = `
+      left: ${(i * 30 + rand(0, 12)).toFixed(1)}px;
+      --sdx: ${rand(-12, 12).toFixed(1)}px;
+      --sdur: ${rand(2.0, 3.2).toFixed(2)}s;
+      --sdelay: ${rand(0, 1.8).toFixed(2)}s;
+    `;
+    steam.appendChild(s);
+  }
+
+  overlay.classList.remove('fading');
+  overlay.style.opacity = '';
+
+  // Reset animations by forcing reflow
+  const resets = overlay.querySelectorAll('.coffee-content, .coffee-msg, .coffee-stream, .coffee-spout, .coffee-ambience, .coffee-splatter');
+  resets.forEach(el => {
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = '';
+  });
+
+  overlay.classList.add('active');
+
+  // Total ~4.4s: spout drop 0.5s, stream grows 0.45-1.55s, liquid rises 0.8-4s,
+  // message pops at 2.3s, fade at 4.0s
+  setTimeout(() => {
+    overlay.classList.add('fading');
+    setTimeout(() => {
+      overlay.classList.remove('active', 'fading');
+      overlay.style.opacity = '';
+    }, 620);
+  }, 4000);
 }
 
 document.getElementById('theme-logo').addEventListener('click', () => {
@@ -1095,6 +2157,7 @@ document.getElementById('theme-logo').addEventListener('click', () => {
     triggerBeerAnimation();
   } else {
     applyTheme('coffee');
+    triggerCoffeeAnimation();
   }
 });
 document.getElementById('theme-logo').addEventListener('keydown', e => {
@@ -1547,7 +2610,8 @@ async function searchCafesAt(midpoint) {
   setStatus(theme().statusSearch);
 
   const base = { location: midpoint, rankBy: google.maps.places.RankBy.DISTANCE };
-  const queries = theme().searches.map(q => paginatedSearch({ ...base, ...q }));
+  const searchDefs = theme().searches;
+  const queries = searchDefs.map(({ priority, ...q }) => paginatedSearch({ ...base, ...q }));
 
   let results;
   try {
@@ -1558,12 +2622,15 @@ async function searchCafesAt(midpoint) {
     return;
   }
 
+  const { typeFilter, classifyTier } = theme();
   const seen = new Set();
   const all = [];
-  for (const batch of results) {
-    for (const place of batch) {
+  for (let i = 0; i < results.length; i++) {
+    for (const place of results[i]) {
       if (!seen.has(place.place_id)) {
         seen.add(place.place_id);
+        if (typeFilter && !typeFilter(place.types)) continue;
+        place._venuePriority = classifyTier ? classifyTier(place) : 0;
         all.push(place);
       }
     }
@@ -1575,7 +2642,7 @@ async function searchCafesAt(midpoint) {
       return { place: p, dist };
     })
     .filter(({ dist }) => dist <= lastRadius)
-    .map(({ place, dist }) => ({ place, score: scorePlace(place, dist, lastRadius) }))
+    .map(({ place }) => ({ place, score: scorePlace(place) }))
     .sort((a, b) => a.score - b.score)
     .map(({ place }) => place);
 
@@ -1597,13 +2664,13 @@ async function searchCafesAt(midpoint) {
   map.fitBounds(bounds, { padding: 60 });
 }
 
-function scorePlace(place, dist, radius) {
-  const distNorm       = Math.min(dist / radius, 1);
+function scorePlace(place) {
   const rating         = place.rating || 3.5;
   const ratingNorm     = (5 - rating) / 5;
   const reviews        = place.user_ratings_total || 0;
   const popularityNorm = 1 - Math.min(Math.log10(reviews + 1) / 3, 1);
-  return 0.45 * distNorm + 0.35 * ratingNorm + 0.20 * popularityNorm;
+  const priorityNorm   = (place._venuePriority ?? 0) / 4; // 0=pub … 4=bistro/restaurant/bottle shop
+  return 0.50 * priorityNorm + 0.35 * ratingNorm + 0.15 * popularityNorm;
 }
 
 // ── Filters ────────────────────────────────────────────────────────────────
@@ -1990,6 +3057,1117 @@ document.getElementById('move-btn').addEventListener('click', () => {
   midpointMarker.setDraggable(active);
   setStatus(active ? 'Drag the ✕ marker to reposition the search area.' : 'Midpoint locked.');
 });
+
+// ══════════════════════════════════════════════════════════════════════════
+// ── Pub Golf ──────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════
+const GOLF_THEMES = {
+  classic: {
+    name: 'Classic Pub',  emoji: '🍺',
+    nameHints: [/\b(pub|hotel|tavern|inn)\b/i],
+    drinks: ['Schooner of lager', 'Pint of pale ale', 'Pot of stout', 'Cider', 'Mid-strength'],
+  },
+  irish: {
+    name: 'Irish', emoji: '☘️',
+    nameHints: [/irish|celtic|dublin|paddy|kelly|molly|murphy|shamrock/i],
+    drinks: ['Guinness', 'Jameson neat', 'Bushmills', 'Irish coffee', 'Baileys on ice'],
+  },
+  spirits: {
+    name: 'Spirits', emoji: '🥃',
+    nameHints: [/whisk(e)?y|spirit|distill/i],
+    drinks: ['Whisky neat', 'Gin & tonic', 'Vodka soda', 'Rum & Coke', 'Tequila shot'],
+  },
+  wine: {
+    name: 'Wine', emoji: '🍷',
+    nameHints: [/wine|vino|cellar|vineyard/i],
+    drinks: ['Red wine', 'White wine', 'Rosé', 'Prosecco', 'Sparkling'],
+  },
+  bottlo: {
+    name: 'Bottlo', emoji: '🍾',
+    nameHints: [/bottle[\s-]?shop|cellar|liquor|dan[\s-]?murphy|bws|first[\s-]?choice/i],
+    drinks: ['Craft tinnie', '6-pack to share', 'RTD cocktail', 'Goon sack', 'Mystery pick'],
+  },
+  speakeasy: {
+    name: 'Speakeasy', emoji: '🎩',
+    nameHints: [/speakeasy|parlou?r|loft|den|hidden|basement/i],
+    drinks: ['Old Fashioned', 'Negroni', 'Manhattan', 'Martini', 'Whisky Sour'],
+  },
+  divebar: {
+    name: 'Dive Bar', emoji: '🍻',
+    nameHints: [/dive|joint|shack|hole|corner|local|workers?/i],
+    drinks: ['Well whisky', 'Cheap lager', 'Tequila shot', 'Rum & Coke', 'House pour'],
+  },
+  cocktail: {
+    name: 'Cocktail Lounge', emoji: '🍸',
+    nameHints: [/cocktail|lounge|mixology|bar\s+\d|lobby|salon/i],
+    drinks: ['Espresso Martini', 'Margarita', 'Aperol Spritz', 'Mojito', 'Daiquiri'],
+  },
+  rooftop: {
+    name: 'Rooftop Bar', emoji: '🌆',
+    nameHints: [/roof[\s-]?top|sky[\s-]?bar|skyline|terrace|upstairs|level\s+\d|tower/i],
+    drinks: ['Champagne flute', 'Aperol Spritz', 'Prosecco', 'Gin fizz', 'French 75'],
+  },
+  beergarden: {
+    name: 'Beer Garden', emoji: '🌿',
+    nameHints: [/beer\s?garden|biergarten|garden|courtyard|lawn|outdoor/i],
+    drinks: ['Stein of lager', 'Wheat beer', 'Pilsner', 'Shandy', 'Radler'],
+  },
+  sports: {
+    name: 'Sports Bar', emoji: '🏈',
+    nameHints: [/sports|sport\s?bar|stadium|arena|kickoff|grandstand|tab|tabcorp/i],
+    drinks: ['Beer jug', 'Pint of draught', 'Light beer', 'Boilermaker', 'Stadium shot'],
+  },
+};
+
+const golfState = {
+  mode: 'midpoint',          // 'midpoint' or 'golf'
+  source: 'address',         // 'address' or 'midpoint' (friends' midpoint)
+  endMode: 'last',           // 'last' | 'start' | 'custom'
+  start: null,                // { latLng, address }
+  end: null,                  // { latLng, address } — only for endMode 'custom'
+  selectedThemes: ['classic'],
+  route: [],                  // array of { place, theme, drink, score, leg: {distance, duration} }
+  finishLeg: null,            // { durationSec, distanceMeters, durationText, distanceText, label }
+  warning: null,
+};
+
+// Refs
+const golfStartInput = () => document.getElementById('golf-start');
+const golfStatusEl   = () => document.getElementById('golf-status');
+const golfResultsEl  = () => document.getElementById('golf-results');
+const golfBuildBtn   = () => document.getElementById('golf-build-btn');
+
+// ── Mode toggle ────────────────────────────────────────────────────────────
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    golfState.mode = btn.dataset.mode;
+    document.body.classList.toggle('golf-mode', golfState.mode === 'golf');
+    applyGolfSourceClass();
+    clearResults();
+    if (golfState.mode === 'golf') {
+      renderThemeChips();
+      if (mapsLoaded && !golfStartInput().dataset.acAttached) attachGolfAutocomplete();
+      updateGolfBuildBtnState();
+    }
+  });
+});
+
+// Reset to midpoint mode when leaving beer theme
+const origApplyTheme = applyTheme;
+applyTheme = function (newTheme) {
+  origApplyTheme(newTheme);
+  if (newTheme !== 'beer' && golfState.mode === 'golf') {
+    golfState.mode = 'midpoint';
+    document.body.classList.remove('golf-mode');
+    document.querySelectorAll('.mode-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.mode === 'midpoint');
+    });
+  }
+};
+
+// ── Source toggle (Address vs Friends' Midpoint) ───────────────────────────
+function applyGolfSourceClass() {
+  document.body.classList.toggle('golf-source-address',  golfState.mode === 'golf' && golfState.source === 'address');
+  document.body.classList.toggle('golf-source-midpoint', golfState.mode === 'golf' && golfState.source === 'midpoint');
+}
+
+function updateGolfBuildBtnState() {
+  const btn = golfBuildBtn();
+  let ok;
+  if (golfState.source === 'address') ok = !!golfState.start;
+  else ok = friends.filter(f => f.latLng).length >= 2;
+  if (ok && golfState.endMode === 'custom') ok = !!golfState.end;
+  btn.disabled = !ok;
+}
+
+// ── End-location toggle + autocomplete ─────────────────────────────────────
+document.querySelectorAll('.end-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.end-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    golfState.endMode = btn.dataset.end;
+    const section = document.getElementById('golf-end-section');
+    section.style.display = golfState.endMode === 'custom' ? 'block' : 'none';
+    if (golfState.endMode === 'custom' && mapsLoaded) {
+      const input = document.getElementById('golf-end');
+      if (!input.dataset.acAttached) attachGolfEndAutocomplete();
+    }
+    updateGolfBuildBtnState();
+  });
+});
+
+function attachGolfEndAutocomplete() {
+  const input = document.getElementById('golf-end');
+  input.dataset.acAttached = '1';
+  const acService = new google.maps.places.AutocompleteService();
+  const dropdown = document.createElement('div');
+  dropdown.className = 'autocomplete-dropdown';
+  document.body.appendChild(dropdown);
+  let debounceTimer;
+  const positionDropdown = () => {
+    const r = input.getBoundingClientRect();
+    dropdown.style.left = r.left + 'px';
+    dropdown.style.top  = (r.bottom + 4) + 'px';
+    dropdown.style.width = r.width + 'px';
+  };
+  const hide = () => { dropdown.style.display = 'none'; };
+  const pick = (pred) => {
+    input.value = pred.description;
+    hide();
+    geocoder.geocode({ placeId: pred.place_id }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        golfState.end = { latLng: results[0].geometry.location, address: pred.description };
+        input.classList.add('resolved');
+        updateGolfBuildBtnState();
+      }
+    });
+  };
+  input.addEventListener('input', () => {
+    golfState.end = null;
+    input.classList.remove('resolved');
+    updateGolfBuildBtnState();
+    clearTimeout(debounceTimer);
+    const val = input.value.trim();
+    if (!val) { hide(); return; }
+    debounceTimer = setTimeout(() => {
+      acService.getPlacePredictions({ input: val, componentRestrictions: { country: 'au' } }, (preds, status) => {
+        if (status !== 'OK' || !preds) { hide(); return; }
+        dropdown.innerHTML = '';
+        positionDropdown();
+        dropdown.style.display = 'block';
+        preds.forEach(pred => {
+          const item = document.createElement('div');
+          item.className = 'autocomplete-item';
+          const main = pred.structured_formatting?.main_text || pred.description;
+          const sub  = pred.structured_formatting?.secondary_text || '';
+          item.innerHTML = `<strong>${main}</strong>${sub ? ` <span>· ${sub}</span>` : ''}`;
+          item.addEventListener('mousedown', e => { e.preventDefault(); pick(pred); });
+          dropdown.appendChild(item);
+        });
+      });
+    }, 200);
+  });
+  input.addEventListener('blur', () => setTimeout(hide, 150));
+  window.addEventListener('resize', positionDropdown);
+}
+
+document.querySelectorAll('.source-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    golfState.source = btn.dataset.source;
+    applyGolfSourceClass();
+    updateGolfBuildBtnState();
+    if (golfState.source === 'midpoint' && friends.length === 0) {
+      addFriend('e.g. 1 Macquarie St, Sydney NSW');
+      addFriend('e.g. 100 George St, Sydney NSW');
+    }
+  });
+});
+
+// Keep build button state in sync when friends resolve/unresolve
+const origAddFriend = addFriend;
+addFriend = function (ph) {
+  const f = origAddFriend(ph);
+  if (f.input) {
+    const sync = () => { if (golfState.mode === 'golf' && golfState.source === 'midpoint') updateGolfBuildBtnState(); };
+    f.input.addEventListener('input', sync);
+    f.input.addEventListener('change', sync);
+    // Polling fallback for autocomplete-set coords (latLng is set outside input events)
+    const watch = setInterval(() => {
+      if (!document.body.contains(f.input)) { clearInterval(watch); return; }
+      sync();
+    }, 800);
+  }
+  return f;
+};
+
+// ── Theme chips ────────────────────────────────────────────────────────────
+function renderThemeChips() {
+  const container = document.getElementById('theme-chips');
+  container.innerHTML = '';
+  Object.entries(GOLF_THEMES).forEach(([key, t]) => {
+    const chip = document.createElement('div');
+    chip.className = 'theme-chip' + (golfState.selectedThemes.includes(key) ? ' active' : '');
+    chip.textContent = `${t.emoji} ${t.name}`;
+    chip.dataset.theme = key;
+    chip.addEventListener('click', () => {
+      const idx = golfState.selectedThemes.indexOf(key);
+      if (idx >= 0) {
+        if (golfState.selectedThemes.length > 1) golfState.selectedThemes.splice(idx, 1);
+      } else {
+        golfState.selectedThemes.push(key);
+      }
+      renderThemeChips();
+    });
+    container.appendChild(chip);
+  });
+}
+
+// ── Start location autocomplete ────────────────────────────────────────────
+function attachGolfAutocomplete() {
+  const input = golfStartInput();
+  input.dataset.acAttached = '1';
+  const acService = new google.maps.places.AutocompleteService();
+
+  const dropdown = document.createElement('div');
+  dropdown.className = 'autocomplete-dropdown';
+  document.body.appendChild(dropdown);
+
+  let debounceTimer, activeIdx = -1, currentPreds = [];
+  const positionDropdown = () => {
+    const r = input.getBoundingClientRect();
+    dropdown.style.left = r.left + 'px';
+    dropdown.style.top  = (r.bottom + 4) + 'px';
+    dropdown.style.width = r.width + 'px';
+  };
+  const hide = () => { dropdown.style.display = 'none'; activeIdx = -1; currentPreds = []; };
+  const pick = (pred) => {
+    input.value = pred.description;
+    hide();
+    geocoder.geocode({ placeId: pred.place_id }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        golfState.start = { latLng: results[0].geometry.location, address: pred.description };
+        input.classList.add('resolved');
+        updateGolfBuildBtnState();
+      } else {
+        setGolfStatus('Could not resolve address.', 'error');
+      }
+    });
+  };
+  input.addEventListener('input', () => {
+    golfState.start = null;
+    updateGolfBuildBtnState();
+    input.classList.remove('resolved');
+    clearTimeout(debounceTimer);
+    const val = input.value.trim();
+    if (!val) { hide(); return; }
+    debounceTimer = setTimeout(() => {
+      acService.getPlacePredictions({ input: val, componentRestrictions: { country: 'au' } }, (preds, status) => {
+        if (status !== 'OK' || !preds) { hide(); return; }
+        currentPreds = preds;
+        dropdown.innerHTML = '';
+        positionDropdown();
+        dropdown.style.display = 'block';
+        preds.forEach((pred, i) => {
+          const item = document.createElement('div');
+          item.className = 'autocomplete-item';
+          const main = pred.structured_formatting?.main_text || pred.description;
+          const sub  = pred.structured_formatting?.secondary_text || '';
+          item.innerHTML = `<strong>${main}</strong>${sub ? ` <span>· ${sub}</span>` : ''}`;
+          item.addEventListener('mousedown', e => { e.preventDefault(); pick(pred); });
+          dropdown.appendChild(item);
+        });
+      });
+    }, 200);
+  });
+  input.addEventListener('blur', () => setTimeout(hide, 150));
+  window.addEventListener('resize', positionDropdown);
+}
+
+function setGolfStatus(msg, kind = '') {
+  const el = golfStatusEl();
+  el.textContent = msg;
+  el.className = kind;
+}
+
+// ── Route builder ──────────────────────────────────────────────────────────
+document.getElementById('golf-build-btn').addEventListener('click', buildGolfRoute);
+
+async function buildGolfRoute() {
+  const holes  = Math.max(2, Math.min(18, parseInt(document.getElementById('golf-holes').value) || 9));
+  const radius = Math.max(300, Math.min(5000, parseInt(document.getElementById('golf-radius').value) || 1500));
+  const walkCapMin = Math.max(15, Math.min(240, parseInt(document.getElementById('golf-walk-cap').value) || 90));
+  const themes = golfState.selectedThemes.slice();
+  if (!themes.length) { setGolfStatus('Pick at least one theme.', 'error'); return; }
+
+  // Resolve start position based on source
+  let startPos, startAddress;
+  if (golfState.source === 'midpoint') {
+    const resolved = friends.filter(f => f.latLng);
+    if (resolved.length < 2) {
+      setGolfStatus('Add at least 2 friends with resolved addresses.', 'error');
+      return;
+    }
+    const avgLat = resolved.reduce((s, f) => s + f.latLng.lat(), 0) / resolved.length;
+    const avgLng = resolved.reduce((s, f) => s + f.latLng.lng(), 0) / resolved.length;
+    startPos = { lat: avgLat, lng: avgLng };
+    startAddress = `Friends' midpoint (${avgLat.toFixed(5)}, ${avgLng.toFixed(5)})`;
+    golfState.start = { latLng: new google.maps.LatLng(avgLat, avgLng), address: startAddress };
+  } else {
+    if (!golfState.start) { setGolfStatus('Pick a start location first.', 'error'); return; }
+    startPos = { lat: golfState.start.latLng.lat(), lng: golfState.start.latLng.lng() };
+    startAddress = golfState.start.address;
+  }
+
+  // Resolve end position based on endMode
+  let endPos = null, endAddress = null;
+  if (golfState.endMode === 'start') {
+    endPos = { ...startPos };
+    endAddress = startAddress;
+  } else if (golfState.endMode === 'custom') {
+    if (!golfState.end) { setGolfStatus('Pick an end location or choose a different End At option.', 'error'); return; }
+    endPos = { lat: golfState.end.latLng.lat(), lng: golfState.end.latLng.lng() };
+    endAddress = golfState.end.address;
+  }
+
+  golfBuildBtn().disabled = true;
+  setGolfStatus('Searching for venues…');
+  golfResultsEl().innerHTML = '';
+  golfState.finishLeg = null;
+
+  // Fetch pool of venues (reuse beer-theme searches for pubs/bars + liquor_store/wine_bar)
+  const base = { location: startPos, rankBy: google.maps.places.RankBy.DISTANCE };
+  const searchDefs = [
+    { keyword: 'pub' },
+    { type: 'bar' },
+    { keyword: 'tavern' },
+    { keyword: 'RSL club' },
+    { keyword: 'hotel bar' },
+    { keyword: 'cocktail bar' },
+    { keyword: 'cocktail lounge' },
+    { keyword: 'wine bar' },
+    { keyword: 'bottle shop' },
+    { type: 'liquor_store' },
+    { keyword: 'dive bar' },
+    { keyword: 'rooftop bar' },
+    { keyword: 'sky bar' },
+    { keyword: 'beer garden' },
+    { keyword: 'sports bar' },
+  ];
+
+  let pool;
+  try {
+    const results = await Promise.all(searchDefs.map(q => paginatedSearch({ ...base, ...q })));
+    const seen = new Set();
+    pool = [];
+    for (const batch of results) {
+      for (const p of batch) {
+        if (seen.has(p.place_id)) continue;
+        seen.add(p.place_id);
+        if (!p.geometry || !p.geometry.location) continue;
+        // Pub Golf: require a minimum review count so venues are trustworthy
+        if ((p.user_ratings_total || 0) < 20) continue;
+        // Filter: respect beer-theme typeFilter (skip pure restaurants/cafes)
+        const tf = THEMES.beer.typeFilter;
+        if (tf && !tf(p.types)) continue;
+        const dist = haversine(startPos.lat, startPos.lng, p.geometry.location.lat(), p.geometry.location.lng());
+        if (dist > radius) continue;
+        p._dist = dist;
+        p._tier = THEMES.beer.classifyTier(p);
+        pool.push(p);
+      }
+    }
+  } catch (err) {
+    setGolfStatus(err.message, 'error');
+    golfBuildBtn().disabled = false;
+    return;
+  }
+
+  if (pool.length < 2) {
+    setGolfStatus('Not enough venues found. Increase the radius.', 'error');
+    golfBuildBtn().disabled = false;
+    return;
+  }
+
+  // Expand themes to match hole count by cycling
+  const themeSequence = [];
+  for (let i = 0; i < holes; i++) themeSequence.push(themes[i % themes.length]);
+
+  // Greedy nearest-neighbor: from current position, pick closest venue matching next theme
+  const route = [];
+  const used = new Set();
+  let cursor = startPos;
+  let totalWalkMeters = 0;
+  // Effective travel speed blends walking (~1.35 m/s) with public transport availability.
+  // Using ~3.5 m/s (≈12.6 km/h) as a soft cap so transit-reachable venues aren't excluded up front.
+  // Real per-leg walking/transit times are computed via the Directions API below and may trigger
+  // a "cap exceeded" warning afterwards.
+  const travelCapMeters = walkCapMin * 60 * 3.5;
+
+  // Prefer venues that are BOTH themed and well-rated, then well-rated (any),
+  // only falling back to dodgy theme-matchers if nothing else is available.
+  // Quality gate: ≥ 4.0 stars and ≥ 50 reviews (on top of the global ≥ 20 min).
+  const QUALITY_MIN_RATING  = 4.0;
+  const QUALITY_MIN_REVIEWS = 50;
+  const isGoodQuality = (p) =>
+    (p.rating || 0) >= QUALITY_MIN_RATING &&
+    (p.user_ratings_total || 0) >= QUALITY_MIN_REVIEWS;
+  // Composite quality score for ranking within a bucket (rating weighted higher,
+  // review count logged so 500 and 5000 don't swing it wildly).
+  const qualityScore = (p) =>
+    (p.rating || 0) * 2 + Math.min(Math.log10((p.user_ratings_total || 0) + 1), 3);
+
+  for (const themeKey of themeSequence) {
+    const theme = GOLF_THEMES[themeKey];
+    const hintRegex = theme.nameHints[0];
+
+    const candidates = pool
+      .filter(p => !used.has(p.place_id))
+      .map(p => {
+        const name = (p.name || '').toLowerCase();
+        const hintMatch = hintRegex && hintRegex.test(name) ? 0 : 1;
+        const d = haversine(cursor.lat, cursor.lng, p.geometry.location.lat(), p.geometry.location.lng());
+        return {
+          p, hintMatch, d,
+          tier: p._tier,
+          good: isGoodQuality(p),
+          q: qualityScore(p),
+        };
+      })
+      .sort((a, b) => {
+        // "Bottlo" is a hard category (bottle shop / liquor store) — keep that,
+        // but still prefer better-rated bottle shops over worse ones.
+        if (themeKey === 'bottlo') {
+          const aLiq = (a.p.types || []).includes('liquor_store') ? 0 : 1;
+          const bLiq = (b.p.types || []).includes('liquor_store') ? 0 : 1;
+          if (aLiq !== bLiq) return aLiq - bLiq;
+          if (a.good !== b.good) return a.good ? -1 : 1;
+          if (b.q !== a.q) return b.q - a.q;
+          return a.d - b.d;
+        }
+
+        // Bucket 1: themed AND high quality (the ideal pick)
+        const aBest = a.hintMatch === 0 && a.good;
+        const bBest = b.hintMatch === 0 && b.good;
+        if (aBest !== bBest) return aBest ? -1 : 1;
+        if (aBest && bBest) {
+          if (b.q !== a.q) return b.q - a.q;
+          return a.d - b.d;
+        }
+
+        // Bucket 2: high quality (themed or not) — don't force a bad themed match
+        if (a.good !== b.good) return a.good ? -1 : 1;
+        if (a.good && b.good) {
+          // Both good → prefer themed, then higher quality, then closer
+          if (a.hintMatch !== b.hintMatch) return a.hintMatch - b.hintMatch;
+          if (b.q !== a.q) return b.q - a.q;
+          return a.d - b.d;
+        }
+
+        // Bucket 3: dodgy — rank by tier, then quality, then distance. Hint
+        // match is deliberately ignored here so we don't force a low-quality
+        // theme-matcher ahead of a slightly better non-themed venue.
+        if (a.tier !== b.tier) return a.tier - b.tier;
+        if (b.q !== a.q) return b.q - a.q;
+        return a.d - b.d;
+      });
+
+    if (!candidates.length) break;
+    const pick = candidates[0];
+    // Check travel cap (walking- or transit-reachable within cap)
+    if (totalWalkMeters + pick.d > travelCapMeters) {
+      golfState.warning = `Travel cap reached — built ${route.length} of ${holes} holes.`;
+      break;
+    }
+    totalWalkMeters += pick.d;
+    used.add(pick.p.place_id);
+    route.push({
+      place: pick.p,
+      theme: themeKey,
+      drink: theme.drinks[0],
+      score: '',
+      leg: { distanceMeters: pick.d, durationSec: Math.round(pick.d / 1.35) },
+    });
+    cursor = { lat: pick.p.geometry.location.lat(), lng: pick.p.geometry.location.lng() };
+  }
+
+  if (route.length < 2) {
+    setGolfStatus('Could not build a route with those constraints. Try more themes or a bigger radius.', 'error');
+    golfBuildBtn().disabled = false;
+    return;
+  }
+
+  if (route.length < holes && !golfState.warning) {
+    golfState.warning = `Only ${route.length} suitable venues found.`;
+  } else if (route.length >= holes) {
+    golfState.warning = null;
+  }
+
+  // Compute finish leg (if endMode != 'last') using haversine as fallback
+  if (endPos) {
+    const last = route[route.length - 1].place.geometry.location;
+    const d = haversine(last.lat(), last.lng(), endPos.lat, endPos.lng);
+    golfState.finishLeg = {
+      distanceMeters: d,
+      durationSec: Math.round(d / 1.35),
+      label: golfState.endMode === 'start' ? 'Back to start' : 'Finish',
+      endAddress,
+    };
+  }
+
+  // Refine with Directions API: walking + transit, pick faster per leg
+  setGolfStatus('Calculating walking & transit routes…');
+  try {
+    await refineRouteWithDirections(startPos, route, endPos);
+  } catch (e) {
+    // Non-fatal: fall back to haversine estimates
+    console.warn('Directions API failed, using straight-line estimates:', e);
+  }
+
+  // Enforce travel cap on real per-leg durations (post-refinement, using chosen mode per leg)
+  const totalTravelSec = route.reduce((s, r) => s + (r.leg?.durationSec || 0), 0) + (golfState.finishLeg?.durationSec || 0);
+  const capSec = walkCapMin * 60;
+  if (totalTravelSec > capSec) {
+    const overMin = Math.ceil((totalTravelSec - capSec) / 60);
+    golfState.warning = `Travel cap exceeded by ~${overMin} min (uses fastest of walking/transit per leg).`;
+  }
+
+  golfState.route = route;
+  renderGolfResults();
+  drawGolfRouteOnMap(startPos, route);
+  golfBuildBtn().disabled = false;
+  if (golfState.warning) setGolfStatus(golfState.warning, 'warn');
+  else setGolfStatus(`${route.length}-hole route built.`);
+}
+
+function refineRouteWithDirections(startPos, route, endPos) {
+  if (!window.google || !google.maps.DirectionsService) {
+    return Promise.reject(new Error('Directions unavailable'));
+  }
+  const hasFinish = !!endPos;
+  const destination = hasFinish
+    ? endPos
+    : { lat: route[route.length - 1].place.geometry.location.lat(), lng: route[route.length - 1].place.geometry.location.lng() };
+  const waypointHoles = hasFinish ? route : route.slice(0, -1);
+  const waypoints = waypointHoles.map(r => ({
+    location: { lat: r.place.geometry.location.lat(), lng: r.place.geometry.location.lng() },
+    stopover: true,
+  }));
+
+  const runMode = (travelMode) => new Promise((resolve) => {
+    const ds = new google.maps.DirectionsService();
+    // Transit doesn't accept multi-waypoint routes — run leg by leg.
+    if (travelMode === google.maps.TravelMode.TRANSIT) {
+      const stops = [startPos, ...route.map(r => ({ lat: r.place.geometry.location.lat(), lng: r.place.geometry.location.lng() }))];
+      if (hasFinish) stops.push(endPos);
+      const legPromises = [];
+      for (let i = 0; i < stops.length - 1; i++) {
+        legPromises.push(new Promise((res2) => {
+          const ds2 = new google.maps.DirectionsService();
+          ds2.route({
+            origin: stops[i], destination: stops[i + 1],
+            travelMode: google.maps.TravelMode.TRANSIT,
+          }, (r, s) => {
+            if (s === 'OK' && r && r.routes[0] && r.routes[0].legs[0]) {
+              const L = r.routes[0].legs[0];
+              res2({ ok: true, distanceMeters: L.distance.value, durationSec: L.duration.value, distanceText: L.distance.text, durationText: L.duration.text, rawResult: r });
+            } else {
+              res2({ ok: false });
+            }
+          });
+        }));
+      }
+      Promise.all(legPromises).then(legs => resolve({ mode: 'transit', legs, result: null }));
+      return;
+    }
+    // Walking: single multi-waypoint call
+    ds.route({
+      origin: startPos, destination, waypoints,
+      optimizeWaypoints: false,
+      travelMode: google.maps.TravelMode.WALKING,
+    }, (res, status) => {
+      if (status !== 'OK' || !res || !res.routes[0]) { resolve({ mode: 'walking', legs: [], result: null }); return; }
+      const legs = res.routes[0].legs.map(L => ({
+        ok: true,
+        distanceMeters: L.distance.value,
+        durationSec:    L.duration.value,
+        distanceText:   L.distance.text,
+        durationText:   L.duration.text,
+      }));
+      resolve({ mode: 'walking', legs, result: res });
+    });
+  });
+
+  return Promise.all([
+    runMode(google.maps.TravelMode.WALKING),
+    runMode(google.maps.TravelMode.TRANSIT),
+  ]).then(([walk, transit]) => {
+    if (!walk.legs.length && !transit.legs.some(l => l.ok)) {
+      throw new Error('No routes available');
+    }
+    const totalLegs = route.length + (hasFinish ? 1 : 0);
+    for (let i = 0; i < totalLegs; i++) {
+      const w = walk.legs[i];
+      const t = transit.legs[i];
+      let chosen, mode;
+      const wOk = w && w.ok;
+      const tOk = t && t.ok;
+      if (wOk && tOk) {
+        if (t.durationSec < w.durationSec) { chosen = t; mode = 'transit'; }
+        else                                 { chosen = w; mode = 'walking'; }
+      } else if (wOk) { chosen = w; mode = 'walking'; }
+      else if (tOk)   { chosen = t; mode = 'transit'; }
+      else continue;
+
+      // Extract per-leg path (array of LatLng) and transit details if applicable
+      let path = null, transitDetails = null;
+      if (mode === 'walking' && walk.result?.routes?.[0]?.legs?.[i]) {
+        path = extractPathFromLeg(walk.result.routes[0].legs[i]);
+      } else if (mode === 'transit' && t.rawResult?.routes?.[0]?.legs?.[0]) {
+        const tleg = t.rawResult.routes[0].legs[0];
+        path = extractPathFromLeg(tleg);
+        transitDetails = extractTransitSummary(tleg);
+      }
+
+      const legData = {
+        distanceMeters: chosen.distanceMeters,
+        durationSec:    chosen.durationSec,
+        distanceText:   chosen.distanceText,
+        durationText:   chosen.durationText,
+        mode,
+        path,
+        transit: transitDetails,
+      };
+      if (i < route.length) {
+        route[i].leg = legData;
+      } else if (hasFinish && golfState.finishLeg) {
+        Object.assign(golfState.finishLeg, legData);
+      }
+    }
+    golfState.directionsResult = walk.result;
+  });
+}
+
+// Concatenate step paths into a single polyline point array for one leg.
+function extractPathFromLeg(leg) {
+  if (!leg) return null;
+  const pts = [];
+  if (leg.steps && leg.steps.length) {
+    for (const step of leg.steps) {
+      if (step.path && step.path.length) {
+        for (const pt of step.path) pts.push(pt);
+      } else if (step.start_location && step.end_location) {
+        pts.push(step.start_location, step.end_location);
+      }
+    }
+  } else if (leg.start_location && leg.end_location) {
+    pts.push(leg.start_location, leg.end_location);
+  }
+  return pts.length ? pts : null;
+}
+
+// Find the first transit step on a leg and summarise its vehicle + line.
+function extractTransitSummary(leg) {
+  if (!leg || !leg.steps) return null;
+  const segments = [];
+  for (const step of leg.steps) {
+    if (step.travel_mode === 'TRANSIT' && step.transit) {
+      const td = step.transit;
+      const line = td.line || {};
+      const vehicle = line.vehicle || {};
+      segments.push({
+        type: (vehicle.type || 'BUS').toUpperCase(),
+        vehicleName: vehicle.name || '',
+        lineName: line.name || '',
+        lineShort: line.short_name || '',
+        lineColor: line.color || null,
+        textColor: line.text_color || null,
+        numStops: td.num_stops,
+        departure: td.departure_stop?.name,
+        arrival: td.arrival_stop?.name,
+        headsign: td.headsign,
+      });
+    }
+  }
+  if (!segments.length) return null;
+  // Use the first segment as the primary label; keep all for tooltip detail
+  return { primary: segments[0], segments };
+}
+
+// ── Render scorecard ───────────────────────────────────────────────────────
+function renderGolfResults() {
+  const el = golfResultsEl();
+  const route = golfState.route;
+  const finish = golfState.finishLeg;
+  const totalSec = route.reduce((s, r) => s + (r.leg?.durationSec || 0), 0) + (finish?.durationSec || 0);
+  const totalMeters = route.reduce((s, r) => s + (r.leg?.distanceMeters || 0), 0) + (finish?.distanceMeters || 0);
+
+  const fmt = (sec) => {
+    const m = Math.round(sec / 60);
+    return m < 60 ? `${m} min` : `${Math.floor(m/60)}h ${m%60}m`;
+  };
+  const fmtD = (m) => m >= 1000 ? (m/1000).toFixed(1) + ' km' : Math.round(m) + ' m';
+
+  const modeIcon = (leg) => {
+    if (!leg) return '🚶';
+    if (leg.mode === 'transit' && leg.transit?.primary) return transitEmoji(leg.transit.primary.type);
+    return leg.mode === 'transit' ? '🚆' : '🚶';
+  };
+  const legTransitLabel = (leg) => {
+    if (leg?.mode !== 'transit' || !leg.transit?.primary) return '';
+    const info = leg.transit.primary;
+    const line = info.lineShort || info.lineName || '';
+    const typeLbl = transitTypeLabel(info.type);
+    return line ? ` · ${typeLbl} ${escapeHTML(line)}` : ` · ${typeLbl}`;
+  };
+  const anyTransit = route.some(r => r.leg?.mode === 'transit') || (finish && finish.mode === 'transit');
+  const travelLabel = anyTransit ? 'walking + transit' : 'walking';
+
+  let html = `
+    <div id="route-summary">
+      <div><strong>${route.length} holes</strong> · 🚶${anyTransit ? '🚆' : ''} ${fmt(totalSec)} ${travelLabel} · ${fmtD(totalMeters)} total</div>
+    </div>
+    <button id="export-btn">🗺️ Open route in Google Maps</button>
+  `;
+
+  route.forEach((r, i) => {
+    const t = GOLF_THEMES[r.theme];
+    const legText = r.leg?.durationText || fmt(r.leg?.durationSec || 0);
+    const legDist = r.leg?.distanceText || fmtD(r.leg?.distanceMeters || 0);
+    const drinkOptions = t.drinks.map(d => `<option${d === r.drink ? ' selected' : ''}>${d}</option>`).join('');
+    html += `
+      <div class="hole-card" data-idx="${i}">
+        <span class="hole-num">Hole ${i+1}</span>
+        <div class="hole-venue">${t.emoji} ${escapeHTML(r.place.name)}</div>
+        <div class="hole-meta">${escapeHTML(r.place.vicinity || r.place.formatted_address || '')}</div>
+        <div><span class="hole-theme">${t.name}</span></div>
+        <div class="hole-drink-row">
+          <select class="hole-drink-select" data-idx="${i}">
+            ${drinkOptions}
+            <option value="__custom__"${t.drinks.includes(r.drink) ? '' : ' selected'}>+ Custom…</option>
+          </select>
+          <span class="hole-score-label">Pts</span>
+          <input class="hole-score" data-idx="${i}" type="number" value="${r.score}" placeholder="–" />
+        </div>
+        <div class="leg-info">${modeIcon(r.leg)} ${legText} · ${legDist} from ${i === 0 ? 'start' : 'previous hole'}${legTransitLabel(r.leg)}</div>
+      </div>
+    `;
+  });
+
+  if (finish) {
+    const finText = finish.durationText || fmt(finish.durationSec);
+    const finDist = finish.distanceText || fmtD(finish.distanceMeters);
+    const finEndLabel = escapeHTML(finish.endAddress || (finish.label === 'Back to start' ? 'start' : 'finish'));
+    html += `
+      <div class="hole-card">
+        <span class="hole-num" style="background:var(--find-btn-grad);">🏁 Finish</span>
+        <div class="hole-venue">${finish.label}</div>
+        <div class="hole-meta">${finEndLabel}</div>
+        <div class="leg-info">${modeIcon(finish)} ${finText} · ${finDist} from final hole${legTransitLabel(finish)}</div>
+      </div>
+    `;
+  }
+
+  const totalScore = route.reduce((s, r) => s + (parseInt(r.score) || 0), 0);
+  html += `<div class="total-score">Total score <span id="total-score-val">${totalScore}</span></div>`;
+
+  el.innerHTML = html;
+
+  document.getElementById('export-btn').addEventListener('click', exportGolfRouteToMaps);
+  el.querySelectorAll('.hole-drink-select').forEach(sel => {
+    sel.addEventListener('change', () => {
+      const idx = parseInt(sel.dataset.idx);
+      if (sel.value === '__custom__') {
+        const custom = prompt('Custom drink for this hole:');
+        if (custom) {
+          golfState.route[idx].drink = custom;
+          const opt = document.createElement('option');
+          opt.textContent = custom; opt.selected = true;
+          sel.insertBefore(opt, sel.firstChild);
+        } else {
+          sel.value = golfState.route[idx].drink;
+        }
+      } else {
+        golfState.route[idx].drink = sel.value;
+      }
+    });
+  });
+  el.querySelectorAll('.hole-score').forEach(inp => {
+    inp.addEventListener('input', () => {
+      const idx = parseInt(inp.dataset.idx);
+      golfState.route[idx].score = inp.value;
+      const total = golfState.route.reduce((s, r) => s + (parseInt(r.score) || 0), 0);
+      document.getElementById('total-score-val').textContent = total;
+    });
+  });
+}
+
+function escapeHTML(s) {
+  return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function exportGolfRouteToMaps() {
+  const route = golfState.route;
+  if (!route.length || !golfState.start) return;
+  const origin = encodeURIComponent(golfState.start.address);
+
+  // Determine destination + waypoints based on endMode
+  let destLL, wpHoles;
+  if (golfState.endMode === 'start') {
+    destLL = `${golfState.start.latLng.lat()},${golfState.start.latLng.lng()}`;
+    wpHoles = route;
+  } else if (golfState.endMode === 'custom' && golfState.end) {
+    destLL = `${golfState.end.latLng.lat()},${golfState.end.latLng.lng()}`;
+    wpHoles = route;
+  } else {
+    const last = route[route.length - 1].place;
+    destLL = `${last.geometry.location.lat()},${last.geometry.location.lng()}`;
+    wpHoles = route.slice(0, -1);
+  }
+  const wps = wpHoles.map(r => `${r.place.geometry.location.lat()},${r.place.geometry.location.lng()}`).join('|');
+  const url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destLL}&travelmode=walking${wps ? `&waypoints=${encodeURIComponent(wps)}` : ''}`;
+  window.open(url, '_blank');
+}
+
+// ── Map overlay for golf route ─────────────────────────────────────────────
+let golfMapObjects = [];
+function clearGolfMap() {
+  golfMapObjects.forEach(o => o.setMap(null));
+  golfMapObjects = [];
+  const legendEl = document.getElementById('golf-map-legend');
+  if (legendEl) { legendEl.style.display = 'none'; legendEl.innerHTML = ''; }
+}
+
+// Colour + style per travel mode. Walking is drawn as a dashed theme-coloured
+// line; transit is a solid colour keyed to the vehicle type (bus/train/tram/…).
+function transitPolylineStyle(mode, transitType) {
+  if (mode !== 'transit') {
+    return { color: '#1f3a2b', weight: 4, opacity: 0.75, dashed: true };
+  }
+  const t = (transitType || '').toUpperCase();
+  if (['HEAVY_RAIL', 'COMMUTER_TRAIN', 'HIGH_SPEED_TRAIN', 'LONG_DISTANCE_TRAIN', 'METRO_RAIL', 'RAIL', 'MONORAIL'].includes(t)) {
+    return { color: '#d02a2a', weight: 5, opacity: 0.9, dashed: false };
+  }
+  if (t === 'SUBWAY') {
+    return { color: '#b52a8a', weight: 5, opacity: 0.9, dashed: false };
+  }
+  if (['TRAM', 'LIGHT_RAIL', 'CABLE_CAR', 'FUNICULAR', 'GONDOLA_LIFT'].includes(t)) {
+    return { color: '#8a3ab9', weight: 5, opacity: 0.9, dashed: false };
+  }
+  if (t === 'FERRY') {
+    return { color: '#1c9a9a', weight: 5, opacity: 0.9, dashed: false };
+  }
+  if (['SHARE_TAXI', 'TROLLEYBUS', 'INTERCITY_BUS'].includes(t)) {
+    return { color: '#3a7ad6', weight: 5, opacity: 0.9, dashed: false };
+  }
+  // Bus + fallback
+  return { color: '#2a6fd6', weight: 5, opacity: 0.9, dashed: false };
+}
+
+function transitEmoji(transitType) {
+  const t = (transitType || '').toUpperCase();
+  if (t === 'SUBWAY') return '🚇';
+  if (['TRAM', 'LIGHT_RAIL', 'CABLE_CAR', 'FUNICULAR', 'GONDOLA_LIFT'].includes(t)) return '🚊';
+  if (['HEAVY_RAIL', 'COMMUTER_TRAIN', 'HIGH_SPEED_TRAIN', 'LONG_DISTANCE_TRAIN', 'METRO_RAIL', 'RAIL', 'MONORAIL'].includes(t)) return '🚆';
+  if (t === 'FERRY') return '⛴️';
+  if (['SHARE_TAXI'].includes(t)) return '🚖';
+  return '🚌';
+}
+
+function transitTypeLabel(transitType) {
+  const t = (transitType || '').toUpperCase();
+  if (t === 'SUBWAY') return 'Subway';
+  if (t === 'TRAM' || t === 'LIGHT_RAIL') return 'Tram';
+  if (t === 'CABLE_CAR') return 'Cable car';
+  if (t === 'FUNICULAR') return 'Funicular';
+  if (t === 'GONDOLA_LIFT') return 'Gondola';
+  if (['HEAVY_RAIL', 'COMMUTER_TRAIN', 'METRO_RAIL', 'RAIL'].includes(t)) return 'Train';
+  if (t === 'HIGH_SPEED_TRAIN') return 'High-speed train';
+  if (t === 'LONG_DISTANCE_TRAIN') return 'Long-distance train';
+  if (t === 'MONORAIL') return 'Monorail';
+  if (t === 'FERRY') return 'Ferry';
+  if (t === 'SHARE_TAXI') return 'Share taxi';
+  if (t === 'TROLLEYBUS') return 'Trolleybus';
+  if (t === 'INTERCITY_BUS') return 'Intercity bus';
+  return 'Bus';
+}
+
+// Build a small pill-shaped SVG badge (emoji + short line label) used as a
+// custom map marker icon for transit legs.
+function transitBadgeSVG(emoji, label, bgColor) {
+  const text = (label || '').replace(/[<>&'"]/g, '');
+  const svg = `
+    <svg xmlns='http://www.w3.org/2000/svg' width='68' height='26' viewBox='0 0 68 26'>
+      <rect x='0.5' y='0.5' width='67' height='25' rx='13' ry='13'
+            fill='${bgColor}' stroke='#ffffff' stroke-width='1.5'/>
+      <text x='10' y='18' font-family='-apple-system,Segoe UI,sans-serif'
+            font-size='13' fill='#ffffff'>${emoji}</text>
+      <text x='30' y='18' font-family='-apple-system,Segoe UI,sans-serif'
+            font-size='11' font-weight='700' fill='#ffffff'>${text}</text>
+    </svg>`.replace(/\s+/g, ' ').trim();
+  return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+}
+
+function drawGolfRouteOnMap(startPos, route) {
+  clearGolfMap();
+  if (!map) return;
+
+  // Start marker
+  golfMapObjects.push(new google.maps.Marker({
+    map, position: startPos,
+    label: { text: 'S', color: '#fff', fontWeight: '800', fontSize: '12px' },
+    icon: {
+      path: google.maps.SymbolPath.CIRCLE, scale: 12,
+      fillColor: '#1f3a2b', fillOpacity: 1, strokeColor: '#fff', strokeWeight: 2,
+    },
+    zIndex: 100,
+  }));
+
+  // Hole markers
+  route.forEach((r, i) => {
+    golfMapObjects.push(new google.maps.Marker({
+      map,
+      position: { lat: r.place.geometry.location.lat(), lng: r.place.geometry.location.lng() },
+      label: { text: String(i + 1), color: '#fff', fontWeight: '800', fontSize: '12px' },
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE, scale: 13,
+        fillColor: '#e8a317', fillOpacity: 1, strokeColor: '#fff', strokeWeight: 2,
+      },
+      title: r.place.name,
+      zIndex: 90,
+    }));
+  });
+
+  // Determine finish position up-front so the last leg can target it
+  let finishPos = null;
+  if (golfState.endMode === 'custom' && golfState.end) {
+    finishPos = { lat: golfState.end.latLng.lat(), lng: golfState.end.latLng.lng() };
+  } else if (golfState.endMode === 'start') {
+    finishPos = startPos;
+  }
+
+  // Build per-leg stops list and draw each leg with a mode-specific polyline
+  const stops = [startPos, ...route.map(r => ({ lat: r.place.geometry.location.lat(), lng: r.place.geometry.location.lng() }))];
+  if (finishPos && (golfState.endMode === 'custom' || golfState.endMode === 'start')) stops.push(finishPos);
+
+  const totalLegs = stops.length - 1;
+  for (let i = 0; i < totalLegs; i++) {
+    const leg = i < route.length ? route[i].leg : golfState.finishLeg;
+    if (!leg) continue;
+    const style = transitPolylineStyle(leg.mode, leg.transit?.primary?.type);
+    const path = (leg.path && leg.path.length >= 2) ? leg.path : [stops[i], stops[i + 1]];
+
+    const polyOpts = {
+      map, path,
+      strokeColor:   style.color,
+      strokeWeight:  style.weight,
+      strokeOpacity: style.dashed ? 0 : style.opacity,
+      zIndex: leg.mode === 'transit' ? 85 : 80,
+    };
+    if (style.dashed) {
+      polyOpts.icons = [{
+        icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, strokeColor: style.color, scale: 3 },
+        offset: '0',
+        repeat: '12px',
+      }];
+    }
+    golfMapObjects.push(new google.maps.Polyline(polyOpts));
+
+    // Transit badge marker at the midpoint of the leg
+    if (leg.mode === 'transit' && leg.transit?.primary && path.length) {
+      const mid = path[Math.floor(path.length / 2)];
+      const info = leg.transit.primary;
+      const emoji = transitEmoji(info.type);
+      const badgeText = info.lineShort || info.lineName || info.vehicleName || transitTypeLabel(info.type);
+      const shortText = (badgeText || '').slice(0, 6);
+      const title = [
+        `${emoji} ${transitTypeLabel(info.type)}`,
+        info.lineName ? `Line: ${info.lineName}` : '',
+        info.numStops ? `${info.numStops} stop${info.numStops > 1 ? 's' : ''}` : '',
+        info.departure ? `From: ${info.departure}` : '',
+        info.arrival ? `To: ${info.arrival}` : '',
+      ].filter(Boolean).join('\n');
+
+      golfMapObjects.push(new google.maps.Marker({
+        map,
+        position: mid.lat ? { lat: typeof mid.lat === 'function' ? mid.lat() : mid.lat, lng: typeof mid.lng === 'function' ? mid.lng() : mid.lng } : mid,
+        icon: {
+          url: transitBadgeSVG(emoji, shortText, style.color),
+          scaledSize: new google.maps.Size(68, 26),
+          anchor: new google.maps.Point(34, 13),
+        },
+        title,
+        zIndex: 95,
+      }));
+    }
+  }
+
+  // Finish marker (only if endMode is 'custom'; 'start' reuses the start marker)
+  if (finishPos && golfState.endMode === 'custom') {
+    golfMapObjects.push(new google.maps.Marker({
+      map, position: finishPos,
+      label: { text: 'F', color: '#fff', fontWeight: '800', fontSize: '12px' },
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE, scale: 12,
+        fillColor: '#c04040', fillOpacity: 1, strokeColor: '#fff', strokeWeight: 2,
+      },
+      zIndex: 100,
+    }));
+  }
+
+  // Fit bounds
+  const bounds = new google.maps.LatLngBounds();
+  bounds.extend(startPos);
+  route.forEach(r => bounds.extend(r.place.geometry.location));
+  if (finishPos) bounds.extend(finishPos);
+  map.fitBounds(bounds, { padding: 80 });
+
+  // Render map legend (shows walking + each distinct transit type in the route)
+  renderGolfMapLegend(route);
+}
+
+function renderGolfMapLegend(route) {
+  const legendEl = document.getElementById('golf-map-legend');
+  if (!legendEl) return;
+  const all = [...route.map(r => r.leg), golfState.finishLeg].filter(Boolean);
+  const hasWalking = all.some(l => l.mode === 'walking');
+  const transitTypes = new Map(); // type -> style
+  for (const l of all) {
+    if (l.mode === 'transit' && l.transit?.primary) {
+      const t = (l.transit.primary.type || 'BUS').toUpperCase();
+      if (!transitTypes.has(t)) transitTypes.set(t, transitPolylineStyle('transit', t));
+    }
+  }
+
+  if (!hasWalking && transitTypes.size === 0) {
+    legendEl.style.display = 'none';
+    legendEl.innerHTML = '';
+    return;
+  }
+
+  let html = '<div class="legend-title">Route legs</div>';
+  if (hasWalking) {
+    const walkStyle = transitPolylineStyle('walking');
+    html += `
+      <div class="legend-row">
+        <span class="legend-swatch dashed" style="color:${walkStyle.color}"></span>
+        <span>🚶 Walking</span>
+      </div>`;
+  }
+  for (const [type, style] of transitTypes) {
+    const emoji = transitEmoji(type);
+    const label = transitTypeLabel(type);
+    html += `
+      <div class="legend-row">
+        <span class="legend-swatch" style="background:${style.color}"></span>
+        <span>${emoji} ${label}</span>
+      </div>`;
+  }
+  legendEl.innerHTML = html;
+  legendEl.style.display = 'block';
+}
+
+// Wrap clearResults to also clear golf map
+const origClearResults = clearResults;
+clearResults = function () {
+  origClearResults();
+  clearGolfMap();
+  golfState.route = [];
+  if (golfResultsEl()) golfResultsEl().innerHTML = '';
+};
+
+// Attach start-location autocomplete once maps are ready, if user is already in golf mode
+const origOnMapsReady = window.onMapsReady;
+window.onMapsReady = function () {
+  origOnMapsReady();
+  if (golfState.mode === 'golf') attachGolfAutocomplete();
+};
+
+// Initial theme chip render (so the panel isn't blank if user toggles in)
+renderThemeChips();
 
 // ── Init ───────────────────────────────────────────────────────────────────
 addFriend('e.g. 1 Macquarie St, Sydney NSW');
